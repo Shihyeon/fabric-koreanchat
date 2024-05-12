@@ -50,6 +50,9 @@ public abstract class TextFieldWidgetMixin {
     @Shadow
     public abstract void setText(String var1);
 
+    @Shadow
+    public abstract boolean isActive();
+
     @Unique
     public void writeText(String str) {
         this.write(str);
@@ -245,7 +248,12 @@ public abstract class TextFieldWidgetMixin {
             return;
         }
 
-        cir.setReturnValue(Boolean.TRUE);
+        if (this.isActive()) {
+            cir.setReturnValue(Boolean.TRUE);
+        } else {
+            cir.setReturnValue(Boolean.FALSE);
+            return;
+        }
 
 
         char curr = KeyboardLayout.INSTANCE.layout.toCharArray()[qwertyIndex];

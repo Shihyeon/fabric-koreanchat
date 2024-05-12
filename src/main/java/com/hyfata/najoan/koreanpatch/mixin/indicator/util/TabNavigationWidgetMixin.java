@@ -1,4 +1,4 @@
-package com.hyfata.najoan.koreanpatch.mixin;
+package com.hyfata.najoan.koreanpatch.mixin.indicator.util;
 
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import net.minecraft.client.gui.DrawContext;

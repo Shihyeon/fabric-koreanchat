@@ -1,4 +1,4 @@
-package com.hyfata.najoan.koreanpatch.mixin;
+package com.hyfata.najoan.koreanpatch.mixin.indicator.util;
 
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.tab.GridScreenTab;
