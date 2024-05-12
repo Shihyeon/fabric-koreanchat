@@ -3,10 +3,13 @@
   "id": "koreanpatch",
   "version": "${version}",
 
-  "name": "Korean Patch",
+  "name": "Korean Patch (backport)",
   "description": "This is an Korean Patch Mod (Fabric)",
   "authors": [
     "Najoan"
+  ],
+  "contributors": [
+    "Shihyeon"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/korean-patch-fabric"
@@ -27,7 +30,7 @@
   "depends": {
     "fabricloader": ">=0.14.24",
     "fabric": "*",
-    "minecraft": ">=1.20.6",
+    "minecraft": ">=1.20.4",
     "java": ">=17",
     "fabric-key-binding-api-v1": "*"
   },

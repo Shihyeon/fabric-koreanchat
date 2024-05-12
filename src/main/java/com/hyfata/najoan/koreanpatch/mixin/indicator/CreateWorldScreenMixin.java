@@ -6,11 +6,12 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
+import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.TabNavigationWidget;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
+//import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import org.spongepowered.asm.mixin.Final;
+//import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,8 +26,10 @@ public class CreateWorldScreenMixin extends Screen {
     @Shadow
     private TabNavigationWidget tabNavigation;
 
-    @Shadow @Final
-    private ThreePartsLayoutWidget layout;
+    //@Shadow @Final
+    //private ThreePartsLayoutWidget layout;
+    @Shadow
+    private GridWidget grid;
 
     @Inject(at = {@At(value="RETURN")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
@@ -40,7 +43,8 @@ public class CreateWorldScreenMixin extends Screen {
 
             // initTabNavigation()
             int i = tabNavigation.getNavigationFocus().getBottom();
-            ScreenRect screenRect = new ScreenRect(0, i, this.width, this.height - this.layout.getFooterHeight() - i);
+            //ScreenRect screenRect = new ScreenRect(0, i, this.width, this.height - this.layout.getFooterHeight() - i);
+            ScreenRect screenRect = new ScreenRect(0, i, this.width, this.grid.getY() - i);
 
             // SimplePositioningWidget.class (Found GameTab extends GridScreenTab)
             int pos = (int) MathHelper.lerp(0.16666667F, 0.0F, (float)(screenRect.height() - gridHeight));
