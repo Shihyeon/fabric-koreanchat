@@ -30,7 +30,7 @@ public abstract class TextFieldWidgetMixin {
     public abstract int getCursor();
 
     @Shadow
-    public abstract void setCursor(int var1, boolean shift);
+    public abstract void setCursor(int var1);
 
     @Shadow
     public abstract void eraseCharacters(int var1);
@@ -81,7 +81,7 @@ public abstract class TextFieldWidgetMixin {
     @Unique
     public void modifyText(char ch) {
         int cursorPosition = this.getCursor();
-        this.setCursor(cursorPosition - 1, false);
+        this.setCursor(cursorPosition - 1);
         this.eraseCharacters(1);
         this.writeText(String.valueOf(Character.toChars(ch)));
     }
