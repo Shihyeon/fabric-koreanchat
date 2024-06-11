@@ -6,8 +6,6 @@ Korean Patch는 마인크래프트에서 한글 채팅을 더 원활하게 사�
 
 ## 다운로드
 
-- [CurseForge 다운로드](https://www.curseforge.com/minecraft/mc-mods/korean-patch-fabric)
-
 - [Modrinth 다운로드](https://modrinth.com/mod/korean-chat-patch)
 
 ## 플랫폼별 한/영 변환 방법
@@ -23,6 +21,12 @@ Korean Patch는 마인크래프트에서 한글 채팅을 더 원활하게 사�
 ## 문제
 
 이 모드를 사용하는 데 문제가 있다면 [Issues](https://github.com/najoan125/fabric-koreanchat/issues)에 작성해주세요.
+
+## 후원
+
+- [Github 후원](https://github.com/sponsors/najoan125)
+
+- [Patreon 후원](https://patreon.com/Najoan)
 
 ## License
 
