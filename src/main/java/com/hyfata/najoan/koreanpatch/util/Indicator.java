@@ -21,7 +21,7 @@ public class Indicator {
             context.fill(x+1, y+1, x+11, y+11, -16777216);
             drawCenteredText(context, KOREAN, x+6, y+2);
         }
-        else{
+        else {
             context.fill(x, y, x+12, y+12, -16711936);
             context.fill(x+1, y+1, x+11, y+11, -16777216);
             drawCenteredText(context, ENGLISH, x+6, y+2);
