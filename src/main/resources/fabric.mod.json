@@ -2,18 +2,21 @@
   "schemaVersion": 1,
   "id": "koreanpatch",
   "version": "${version}",
-
   "name": "Korean Patch",
   "description": "This is an Korean Patch Mod (Fabric)",
   "authors": [
     "Najoan"
   ],
+  "contributors": [
+    "Shihyeon"
+  ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/korean-patch-fabric"
+    "homepage": "https://modrinth.com/mod/korean-chat-patch",
+    "sources": "https://github.com/najoan125/fabric-koreanchat",
+    "issues": "https://github.com/najoan125/fabric-koreanchat/issues"
   },
-
   "license": "GNU Lesser General Public License v3.0",
-
+  "icon": "assets/koreanpatch/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -23,15 +26,23 @@
   "mixins": [
     "koreanpatch.mixins.json"
   ],
-
   "depends": {
-    "fabricloader": ">=0.14.24",
+    "fabricloader": ">=0.15.11",
     "fabric": "*",
-    "minecraft": ">=1.20.6",
-    "java": ">=17",
+    "minecraft": ">=1.21",
+    "java": ">=21",
     "fabric-key-binding-api-v1": "*"
   },
   "suggests": {
     "another-mod": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.modrinth": "https://modrinth.com/mod/korean-chat-patch",
+        "modmenu.donate": "https://github.com/sponsors/najoan125",
+        "modmenu.patreon": "https://patreon.com/Najoan"
+      }
+    }
   }
 }
