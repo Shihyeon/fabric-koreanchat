@@ -27,7 +27,9 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(at = {@At(value="HEAD")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        textFieldWidgetUtil = new TextFieldWidgetUtil(chatField);
+        if (textFieldWidgetUtil == null) {
+            textFieldWidgetUtil = new TextFieldWidgetUtil(chatField);
+        }
         if (width != textFieldWidgetUtil.getTextWidth()) {
             width = textFieldWidgetUtil.getTextWidth();
             if (width > client.getWindow().getWidth()) {
