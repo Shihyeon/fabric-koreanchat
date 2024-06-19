@@ -17,7 +17,7 @@ public abstract class ChatScreenMixin extends Screen {
     }
 
     @Inject(at = {@At(value="HEAD")}, method = {"render"})
-    private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        Indicator.showIndicator(context, 2, this.height - 39, false);
+    private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        Indicator.showIndicator(context, 2, this.height - 29, false);
     }
 }
