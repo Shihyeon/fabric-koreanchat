@@ -48,6 +48,6 @@ public class Indicator {
         context.fill(x1, y1, x1+1, y2, frameColor); // frame with fixed axis-x1
         context.fill(x2, y1, x2-1, y2, frameColor); // frame with fixed axis-x2
 
-        context.fill(x1+1, y1+1, x2, y2, backgroundColor); // Background
+        context.fill(x1+1, y1+1, x2-1, y2-1, backgroundColor); // Background
     }
 }

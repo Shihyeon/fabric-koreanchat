@@ -9,6 +9,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,10 +17,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value={ChatScreen.class})
 public abstract class ChatScreenMixin extends Screen {
 
-    @Shadow private TextFieldWidget chatField;
+    @Shadow
+    protected TextFieldWidget chatField;
 
-    private TextFieldWidgetUtil textFieldWidgetUtil;
-    private int width = 0;
+    @Unique
+    int chatWidth;
+
+    @Unique
+    float animatedWidth;
 
     protected ChatScreenMixin(Text title) {
         super(title);
@@ -27,15 +32,17 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(at = {@At(value="HEAD")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (textFieldWidgetUtil == null) {
-            textFieldWidgetUtil = new TextFieldWidgetUtil(chatField);
-        }
-        if (width != textFieldWidgetUtil.getTextWidth()) {
-            width = textFieldWidgetUtil.getTextWidth();
-            if (width > client.getWindow().getWidth()) {
-                width = client.getWindow().getWidth();
+        int chatFieldWidth = TextFieldWidgetUtil.getCursorPosition(chatField);
+        if (chatWidth != chatFieldWidth) {
+            chatWidth = chatFieldWidth;
+            if (chatWidth > chatField.getWidth() - 20) {
+                chatWidth = chatField.getWidth() - 20;
             }
         }
-        Indicator.showIndicator(context, width + 2, this.height - 27, false);
+
+        float interpolationSpeed = 0.1f;
+        animatedWidth += ((chatWidth - animatedWidth) * interpolationSpeed);
+
+        Indicator.showIndicator(context, (int) animatedWidth + 2, this.height - 27, false);
     }
 }
