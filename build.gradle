@@ -12,9 +12,9 @@ modrinth {
 	changelog = rootProject.file("changelog.txt").text
 	projectId = "qyulnpBL"
 	versionNumber = project.mod_version
-	versionName = "Korean Chat Patch " + versionNumber
+	versionName = "Korean Chat Patch " + project.mod_version
 	versionType = "release"
-	uploadFile = jar
+	uploadFile = remapJar
 	gameVersions = ["1.21"]
 	loaders = ["fabric"]
 	dependencies {
