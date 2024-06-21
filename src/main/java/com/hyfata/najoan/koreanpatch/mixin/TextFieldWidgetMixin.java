@@ -53,6 +53,8 @@ public abstract class TextFieldWidgetMixin {
     @Shadow
     public abstract boolean isActive();
 
+    @Shadow public abstract String getSelectedText();
+
     @Unique
     public void writeText(String str) {
         this.write(str);
@@ -88,6 +90,10 @@ public abstract class TextFieldWidgetMixin {
 
     @Unique
     boolean onBackspaceKeyPressed() {
+        if (!getSelectedText().isEmpty()) {
+            return false;
+        }
+
         int cursorPosition = this.getCursor();
         if (cursorPosition == 0 || cursorPosition != KeyboardLayout.INSTANCE.assemblePosition) return false;
 
