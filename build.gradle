@@ -1,10 +1,28 @@
 plugins {
 	id 'fabric-loom' version '1.7-SNAPSHOT'
 	id 'maven-publish'
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
 group = project.maven_group
+
+modrinth {
+	System.out.println(System.getenv("MODRINTH_TOKEN"))
+	token = System.getenv("MODRINTH_TOKEN")
+	changelog = rootProject.file("changelog.txt").text
+	projectId = "qyulnpBL"
+	versionNumber = project.mod_version
+	versionName = "Korean Chat Patch " + versionNumber
+	versionType = "release"
+	uploadFile = jar
+	gameVersions = ["1.21"]
+	loaders = ["fabric"]
+	dependencies {
+		required.project "fabric-api"
+	}
+}
+
 
 base {
 	archivesName = project.archives_base_name
