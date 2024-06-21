@@ -48,11 +48,7 @@ public abstract class ChatScreenMixin extends Screen {
         int selectionStart = accessor.getSelectionStart();
 
         int cursorX = chatField.getCharacterX(selectionStart - firstCharacterIndex);
-        float indicatorX = Math.min(cursorX, chatField.getWidth());
-
-        if (indicatorX > chatField.getWidth() - 20) {
-            indicatorX = chatField.getWidth() - 20;
-        }
+        float indicatorX = Math.min(cursorX, chatField.getWidth() - 20);
 
         if (targetComponent == null || targetComponent != this) {
             targetComponent = this;
