@@ -15,7 +15,7 @@ public class Indicator {
 
     public static void showIndicator(DrawContext context, float x, float y, boolean center) {
         int rgb = 0x000000;
-        int textOpacity = 50 * 255/100; // N% * (0 to 255)/100, default 50%
+        int textOpacity = 55 * 255/100; // N% * (0 to 255)/100, default 50%
         int backgroundColor = ((textOpacity & 0xFF) << 24) | rgb;
 
         int frameColor;
@@ -45,12 +45,11 @@ public class Indicator {
         TextRenderer textRenderer = client.textRenderer;
         float textWidth = (float) textRenderer.getWidth(text);
         float xPosition = x - textWidth / 2.0f;
-        float yPosition = y;
 
         Matrix4f matrix = context.getMatrices().peek().getPositionMatrix();
         VertexConsumerProvider vertexConsumers = context.getVertexConsumers();
 
-        textRenderer.draw(text, xPosition, yPosition, -1, false, matrix, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+        textRenderer.draw(text, xPosition, y, -1, false, matrix, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
     }
 
     private static void drawLabel(DrawContext context, float x1, float y1, float x2, float y2, int frameColor, int backgroundColor) {

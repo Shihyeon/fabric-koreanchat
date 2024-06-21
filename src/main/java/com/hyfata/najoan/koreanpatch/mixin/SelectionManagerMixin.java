@@ -25,8 +25,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value={SelectionManager.class})
 public abstract class SelectionManagerMixin {
     @Shadow
-    private int selectionStart;
-    @Shadow
     private int selectionEnd;
     @Shadow
     @Final
@@ -37,6 +35,11 @@ public abstract class SelectionManagerMixin {
     @Shadow
     @Final
     private Consumer<String> stringSetter;
+
+    @Shadow protected abstract String getSelectedText(String string);
+
+    @Shadow protected abstract void insert(String string, String insertion);
+
     @Unique
     private final MinecraftClient client = MinecraftClient.getInstance();
 
@@ -207,23 +210,14 @@ public abstract class SelectionManagerMixin {
 
     @Unique
     public void writeText(String str) {
-        int cursorPosition = this.selectionEnd;
-        String s = this.getText();
-        String res = cursorPosition > 0 ? s.substring(0, cursorPosition) + str + s.substring(cursorPosition) : str + s;
-        boolean textCommitted = this.setText(res);
-        if (textCommitted && this.getText().length() == res.length()) {
-            this.selectionEnd = cursorPosition + 1;
-            this.selectionStart = cursorPosition + 1;
-        }
+        insert(this.getText(), str);
     }
 
     @Unique
-    public boolean setText(String str) {
+    public void setText(String str) {
         if (this.stringFilter.test(str)) {
             this.stringSetter.accept(str);
-            return true;
         }
-        return false;
     }
 
     @Unique
@@ -265,14 +259,7 @@ public abstract class SelectionManagerMixin {
         char prev = text.toCharArray()[cursorPosition - 1];
         char curr = KeyboardLayout.INSTANCE.layout.toCharArray()[idx];
 
-        if (cursorPosition == 0) {
-            if (!HangulProcessor.isHangulCharacter(curr)) return false;
-
-            this.writeText(String.valueOf(curr));
-            KeyboardLayout.INSTANCE.assemblePosition = this.selectionEnd;
-        }
-        else if (cursorPosition == KeyboardLayout.INSTANCE.assemblePosition) {
-
+        if (cursorPosition == KeyboardLayout.INSTANCE.assemblePosition && getSelectedText(stringGetter.get()).isEmpty()) {
             // 자음 + 모음
             if (HangulProcessor.isJaeum(prev) && HangulProcessor.isMoeum(curr)) {
                 int cho = KeyboardLayout.INSTANCE.chosung_table.indexOf(prev);
@@ -318,7 +305,7 @@ public abstract class SelectionManagerMixin {
                 // 종성에서 받침 하나 빼고 글자 만들기
                 if (jong != 0 && HangulProcessor.isJungsung(curr)) {
                     char[] tbl = KeyboardLayout.INSTANCE.jongsung_ref_table.get(jong).toCharArray();
-                    int newCho = 0;
+                    int newCho;
                     if (tbl.length == 2) {
                         newCho = KeyboardLayout.INSTANCE.chosung_table.indexOf(tbl[1]);
                         jong = KeyboardLayout.INSTANCE.jongsung_table.indexOf(tbl[0]);

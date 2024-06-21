@@ -166,13 +166,7 @@ public abstract class TextFieldWidgetMixin {
         char prev = text.toCharArray()[cursorPosition - 1];
         char curr = KeyboardLayout.INSTANCE.layout.toCharArray()[idx];
 
-        if (cursorPosition == 0) {
-            if (!HangulProcessor.isHangulCharacter(curr)) return false;
-
-            this.writeText(String.valueOf(curr));
-            KeyboardLayout.INSTANCE.assemblePosition = this.getCursor();
-        }
-        else if (cursorPosition == KeyboardLayout.INSTANCE.assemblePosition) {
+        if (cursorPosition == KeyboardLayout.INSTANCE.assemblePosition && getSelectedText().isEmpty()) {
 
             // 자음 + 모음
             if (HangulProcessor.isJaeum(prev) && HangulProcessor.isMoeum(curr)) {
@@ -219,7 +213,7 @@ public abstract class TextFieldWidgetMixin {
                 // 종성에서 받침 하나 빼고 글자 만들기
                 if (jong != 0 && HangulProcessor.isJungsung(curr)) {
                     char[] tbl = KeyboardLayout.INSTANCE.jongsung_ref_table.get(jong).toCharArray();
-                    int newCho = 0;
+                    int newCho;
                     if (tbl.length == 2) {
                         newCho = KeyboardLayout.INSTANCE.chosung_table.indexOf(tbl[1]);
                         jong = KeyboardLayout.INSTANCE.jongsung_table.indexOf(tbl[0]);
@@ -260,7 +254,6 @@ public abstract class TextFieldWidgetMixin {
             cir.setReturnValue(Boolean.FALSE);
             return;
         }
-
 
         char curr = KeyboardLayout.INSTANCE.layout.toCharArray()[qwertyIndex];
         if (this.getCursor() == 0 || !HangulProcessor.isHangulCharacter(curr) || !onHangulCharTyped(chr, modifiers)) {
