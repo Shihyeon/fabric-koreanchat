@@ -2,8 +2,8 @@ package com.hyfata.najoan.koreanpatch.mixin;
 
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.keyboard.KeyboardLayout;
-import com.hyfata.najoan.koreanpatch.keyboard.QwertyLayout;
 import com.hyfata.najoan.koreanpatch.util.HangulProcessor;
+import com.hyfata.najoan.koreanpatch.util.HangulUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.JigsawBlockScreen;
@@ -107,8 +107,9 @@ public abstract class TextFieldWidgetMixin {
             int jung = (code % (21 * 28)) / 28;
             int jong = (code % (21 * 28)) % 28;
 
+            char[] ch_arr;
             if (jong != 0) {
-                char[] ch_arr = KeyboardLayout.INSTANCE.jongsung_ref_table.get(jong).toCharArray();
+                ch_arr = KeyboardLayout.INSTANCE.jongsung_ref_table.get(jong).toCharArray();
                 if (ch_arr.length == 2) {
                     jong = KeyboardLayout.INSTANCE.jongsung_table.indexOf(ch_arr[0]);
                 } else {
@@ -116,20 +117,18 @@ public abstract class TextFieldWidgetMixin {
                 }
                 char c = HangulProcessor.synthesizeHangulCharacter(cho, jung, jong);
                 this.modifyText(c);
-                return true;
             } else {
-                char[] ch_arr = KeyboardLayout.INSTANCE.jungsung_ref_table.get(jung).toCharArray();
+                ch_arr = KeyboardLayout.INSTANCE.jungsung_ref_table.get(jung).toCharArray();
                 if (ch_arr.length == 2) {
                     jung = KeyboardLayout.INSTANCE.jungsung_table.indexOf(ch_arr[0]);
                     char c = HangulProcessor.synthesizeHangulCharacter(cho, jung, 0);
                     this.modifyText(c);
-                    return true;
                 } else {
                     char c = KeyboardLayout.INSTANCE.chosung_table.charAt(cho);
                     this.modifyText(c);
-                    return true;
                 }
             }
+            return true;
         } else if (HangulProcessor.isHangulCharacter(ch)) {
             KeyboardLayout.INSTANCE.assemblePosition = -1;
             return false;
@@ -139,21 +138,7 @@ public abstract class TextFieldWidgetMixin {
 
     @Unique
     boolean onHangulCharTyped(int keyCode, int modifiers) {
-        boolean shift = (modifiers & 0x01) == 1;
-
-        int codePoint = keyCode;
-
-        if (codePoint >= 65 && codePoint <= 90) {
-            codePoint += 32;
-        }
-
-        if (codePoint >= 97 && codePoint <= 122) {
-            if (shift) {
-                codePoint -= 32;
-            }
-        }
-
-        int idx = QwertyLayout.getInstance().getLayoutString().indexOf(codePoint);
+        int idx = HangulUtil.getFixedQwertyIndex(keyCode, modifiers);
         // System.out.println(String.format("idx: %d", idx));
         if (idx == -1) {
             KeyboardLayout.INSTANCE.assemblePosition = -1;
@@ -257,27 +242,8 @@ public abstract class TextFieldWidgetMixin {
 
         char curr = KeyboardLayout.INSTANCE.layout.toCharArray()[qwertyIndex];
         if (this.getCursor() == 0 || !HangulProcessor.isHangulCharacter(curr) || !onHangulCharTyped(chr, modifiers)) {
-            //Caps Lock/한글 상태면 쌍자음으로 입력되는 문제 수정
-            if (HangulProcessor.isHangulCharacter(curr)) {
-                boolean shift = (modifiers & 0x01) == 1;
-                int codePoint = chr;
 
-                if (codePoint >= 65 && codePoint <= 90) {
-                    codePoint += 32;
-                }
-
-                if (codePoint >= 97 && codePoint <= 122) {
-                    if (shift) {
-                        codePoint -= 32;
-                    }
-                }
-                int idx = QwertyLayout.getInstance().getLayoutString().indexOf(codePoint);
-                if (idx != -1) {
-                    curr = KeyboardLayout.INSTANCE.layout.toCharArray()[idx];
-                }
-            } //모두 소문자로 돌린 다음 shift modifier에 따라서 적절하게 처리
-
-            this.writeText(String.valueOf(curr));
+            this.writeText(String.valueOf(HangulUtil.getFixedHangulChar(modifiers, chr, curr)));
             KeyboardLayout.INSTANCE.assemblePosition = HangulProcessor.isHangulCharacter((curr)) ? this.getCursor() : -1;
         }
     }

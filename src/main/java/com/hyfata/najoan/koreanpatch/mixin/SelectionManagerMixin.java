@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.keyboard.KeyboardLayout;
-import com.hyfata.najoan.koreanpatch.keyboard.QwertyLayout;
 import com.hyfata.najoan.koreanpatch.util.HangulProcessor;
+import com.hyfata.najoan.koreanpatch.util.HangulUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.SelectionManager;
@@ -62,27 +62,8 @@ public abstract class SelectionManagerMixin {
             int cursorPosition = this.selectionEnd;
             int modifiers = this.getModifiers();
             if (cursorPosition == 0 || !HangulProcessor.isHangulCharacter(curr) || !this.onHangulCharTyped(chr, modifiers)) {
-                //Caps Lock/한글 상태면 쌍자음으로 입력되는 문제 수정
-                if (HangulProcessor.isHangulCharacter(curr)) {
-                    boolean shift = (modifiers & 0x01) == 1;
-                    int codePoint = chr;
 
-                    if (codePoint >= 65 && codePoint <= 90) {
-                        codePoint += 32;
-                    }
-
-                    if (codePoint >= 97 && codePoint <= 122) {
-                        if (shift) {
-                            codePoint -= 32;
-                        }
-                    }
-                    int idx = QwertyLayout.getInstance().getLayoutString().indexOf(codePoint);
-                    if (idx != -1) {
-                        curr = KeyboardLayout.INSTANCE.layout.toCharArray()[idx];
-                    }
-                } //모두 소문자로 돌린 다음 shift modifier에 따라서 적절하게 처리
-
-                this.writeText(String.valueOf(curr));
+                this.writeText(String.valueOf(HangulUtil.getFixedHangulChar(modifiers, chr, curr)));
                 KeyboardLayout.INSTANCE.assemblePosition = HangulProcessor.isHangulCharacter(curr) ? this.selectionEnd : -1;
             }
         }
@@ -113,26 +94,8 @@ public abstract class SelectionManagerMixin {
             int cursorPosition = this.selectionEnd;
             int modifiers = this.getModifiers();
             if (cursorPosition != 0 && HangulProcessor.isHangulCharacter(curr) && this.onHangulCharTyped(chr, modifiers)) continue;
-            //Caps Lock/한글 상태면 쌍자음으로 입력되는 문제 수정
-            if (HangulProcessor.isHangulCharacter(curr)) {
-                boolean shift = (modifiers & 0x01) == 1;
-                int codePoint = chr;
 
-                if (codePoint >= 65 && codePoint <= 90) {
-                    codePoint += 32;
-                }
-
-                if (codePoint >= 97 && codePoint <= 122) {
-                    if (shift) {
-                        codePoint -= 32;
-                    }
-                }
-                int idx = QwertyLayout.getInstance().getLayoutString().indexOf(codePoint);
-                if (idx != -1) {
-                    curr = KeyboardLayout.INSTANCE.layout.toCharArray()[idx];
-                }
-            } //모두 소문자로 돌린 다음 shift modifier에 따라서 적절하게 처리
-            this.writeText(String.valueOf(curr));
+            this.writeText(String.valueOf(HangulUtil.getFixedHangulChar(modifiers, chr, curr)));
             KeyboardLayout.INSTANCE.assemblePosition = HangulProcessor.isHangulCharacter(curr) ? this.selectionEnd : -1;
         }
     }
@@ -232,21 +195,7 @@ public abstract class SelectionManagerMixin {
 
     @Unique
     boolean onHangulCharTyped(int keyCode, int modifiers) {
-        boolean shift = (modifiers & 0x01) == 1;
-
-        int codePoint = keyCode;
-
-        if (codePoint >= 65 && codePoint <= 90) {
-            codePoint += 32;
-        }
-
-        if (codePoint >= 97 && codePoint <= 122) {
-            if (shift) {
-                codePoint -= 32;
-            }
-        }
-
-        int idx = QwertyLayout.getInstance().getLayoutString().indexOf(codePoint);
+        int idx = HangulUtil.getFixedQwertyIndex(keyCode, modifiers);
         // System.out.println(String.format("idx: %d", idx));
         if (idx == -1) {
             KeyboardLayout.INSTANCE.assemblePosition = -1;
