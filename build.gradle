@@ -8,7 +8,6 @@ version = project.mod_version
 group = project.maven_group
 
 modrinth {
-	System.out.println(System.getenv("MODRINTH_TOKEN"))
 	token = System.getenv("MODRINTH_TOKEN")
 	changelog = rootProject.file("changelog.txt").text
 	projectId = "qyulnpBL"
