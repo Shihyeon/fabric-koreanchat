@@ -1,5 +1,6 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
+import com.hyfata.najoan.koreanpatch.util.EasingFunctions;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import com.hyfata.najoan.koreanpatch.util.TextFieldWidgetUtil;
 import net.minecraft.client.gui.DrawContext;
@@ -7,6 +8,7 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,10 +23,19 @@ public abstract class ChatScreenMixin extends Screen {
     protected TextFieldWidget chatField;
 
     @Unique
-    int chatWidth;
+    int savedTextLength = 0;
 
     @Unique
-    float animatedWidth;
+    float savedIndicatorX = 0;
+
+    @Unique
+    float currentIndicatorX = 0;
+
+    @Unique
+    float animationTickTime = 0;
+
+    @Unique
+    Object targetComponent;
 
     protected ChatScreenMixin(Text title) {
         super(title);
@@ -32,17 +43,32 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(at = {@At(value="HEAD")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        int chatFieldWidth = TextFieldWidgetUtil.getCursorPosition(chatField);
-        if (chatWidth != chatFieldWidth) {
-            chatWidth = chatFieldWidth;
-            if (chatWidth > chatField.getWidth() - 20) {
-                chatWidth = chatField.getWidth() - 20;
-            }
+        float indicatorX = TextFieldWidgetUtil.getTextWidth(chatField);
+        if (indicatorX > chatField.getWidth() - 20) {
+            indicatorX = chatField.getWidth() - 20;
         }
 
-        float interpolationSpeed = 0.1f;
-        animatedWidth += ((chatWidth - animatedWidth) * interpolationSpeed);
+        if (targetComponent == null || targetComponent != this) {
+            targetComponent = this;
+            savedTextLength = 0;
+            savedIndicatorX = indicatorX;
+            currentIndicatorX = indicatorX;
+            animationTickTime = 0;
+        }
 
-        Indicator.showIndicator(context, (int) animatedWidth + 2, this.height - 27, false);
+        if (chatField.getText().length() != savedTextLength) {
+            animationTickTime = (float) GLFW.glfwGetTime();
+            savedTextLength = chatField.getText().length();
+            savedIndicatorX = currentIndicatorX;
+        }
+
+        if (GLFW.glfwGetTime() - animationTickTime > 1.0f) {
+            savedIndicatorX = indicatorX;
+        } else {
+            currentIndicatorX = savedIndicatorX + (indicatorX - savedIndicatorX) * EasingFunctions.easeOutQuint((float)GLFW.glfwGetTime() - animationTickTime);
+            indicatorX = currentIndicatorX;
+        }
+
+        Indicator.showIndicator(context, indicatorX + 2, this.height - 27, false);
     }
 }

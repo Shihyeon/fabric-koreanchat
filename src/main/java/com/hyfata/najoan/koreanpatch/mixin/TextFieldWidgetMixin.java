@@ -4,7 +4,6 @@ import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.keyboard.KeyboardLayout;
 import com.hyfata.najoan.koreanpatch.keyboard.QwertyLayout;
 import com.hyfata.najoan.koreanpatch.util.HangulProcessor;
-import com.hyfata.najoan.koreanpatch.util.TextFieldWidgetUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.JigsawBlockScreen;
@@ -54,9 +53,6 @@ public abstract class TextFieldWidgetMixin {
     @Shadow
     public abstract boolean isActive();
 
-    @Shadow
-    private int firstCharacterIndex;
-
     @Unique
     public void writeText(String str) {
         this.write(str);
@@ -74,7 +70,6 @@ public abstract class TextFieldWidgetMixin {
 
     @Unique
     private void updateScreen() {
-        TextFieldWidgetUtil.firstCharacterIndex = this.firstCharacterIndex;
         if (this.client.currentScreen == null) {
             return;
         }
