@@ -29,11 +29,11 @@ implements ClientModInitializer {
 
     }
 
-    public static interface Imm32
+    public interface Imm32
     extends StdCallLibrary {
-        public static final Imm32 INSTANCE = (Imm32)Native.load((String)"Imm32", Imm32.class);
+        Imm32 INSTANCE = Native.load("Imm32", Imm32.class);
 
-        public boolean ImmDisableIME(int var1);
+        void ImmDisableIME(int var1);
     }
 }
 
