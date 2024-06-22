@@ -13,6 +13,10 @@ public class Indicator {
     static Text KOREAN = Text.translatable("koreanpatch.langtype.korean");
     static Text ENGLISH = Text.translatable("koreanpatch.langtype.english");
 
+    public static void showIndicator(DrawContext context, int x, int y, boolean center) {
+        showIndicator(context, (float)x, (float)y, center);
+    }
+
     public static void showIndicator(DrawContext context, float x, float y, boolean center) {
         int rgb = 0x000000;
         int textOpacity = 55 * 255/100; // N% * (0 to 255)/100, default 50%
