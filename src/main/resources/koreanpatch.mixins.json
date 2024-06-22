@@ -21,6 +21,7 @@
     "indicator.SelectWorldScreenMixin",
     "indicator.SignEditScreenMixin",
     "indicator.util.TabNavigationWidgetMixin",
+    "TextFieldWidgetAccessor",
     "TextFieldWidgetMixin"
   ],
   "injectors": {

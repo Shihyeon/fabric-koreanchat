@@ -1,8 +1,8 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
+import com.hyfata.najoan.koreanpatch.mixin.TextFieldWidgetAccessor;
 import com.hyfata.najoan.koreanpatch.util.EasingFunctions;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
-import com.hyfata.najoan.koreanpatch.util.TextFieldWidgetUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -43,10 +43,12 @@ public abstract class ChatScreenMixin extends Screen {
 
     @Inject(at = {@At(value="HEAD")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        float indicatorX = TextFieldWidgetUtil.getTextWidth(chatField);
-        if (indicatorX > chatField.getWidth() - 20) {
-            indicatorX = chatField.getWidth() - 20;
-        }
+        TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) chatField;
+        int firstCharacterIndex = accessor.getFirstCharacterIndex();
+        int selectionStart = accessor.getSelectionStart();
+
+        int cursorX = chatField.getCharacterX(selectionStart - firstCharacterIndex);
+        float indicatorX = Math.min(cursorX, chatField.getWidth() - 20);
 
         if (targetComponent == null || targetComponent != this) {
             targetComponent = this;
