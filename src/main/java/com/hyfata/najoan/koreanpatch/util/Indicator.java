@@ -19,7 +19,7 @@ public class Indicator {
 
     public static void showIndicator(DrawContext context, float x, float y, boolean center) {
         int rgb = 0x000000;
-        int textOpacity = 55 * 255/100; // N% * (0 to 255)/100, default 50%
+        int textOpacity = 55 * 255/100; // N% * (0 to 255)/100
         int backgroundColor = ((textOpacity & 0xFF) << 24) | rgb;
 
         int frameColor;
@@ -28,13 +28,12 @@ public class Indicator {
 
         if (KoreanPatchClient.KOREAN) {
             lang = KOREAN;
-            len = 2 + client.textRenderer.getWidth(lang);
             frameColor = -65536;
         } else {
             lang = ENGLISH;
-            len = 2 + client.textRenderer.getWidth(lang);
             frameColor = -16711936;
         }
+        len = 2 + client.textRenderer.getWidth(lang);
 
         if (center) {
             x -= len / 2;
