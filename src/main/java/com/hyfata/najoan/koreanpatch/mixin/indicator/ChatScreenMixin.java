@@ -34,18 +34,26 @@ public abstract class ChatScreenMixin extends Screen {
     private final AnimationUtil animationUtil = new AnimationUtil();
 
 
-    @Inject(at = {@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TextFieldWidget;render(Lnet/minecraft/client/gui/DrawContext;IIF)V")}, method = {"render"})
+    @Inject(at = {@At(value = "TAIL")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         ChatInputSuggestorAccessor accessor = (ChatInputSuggestorAccessor) chatInputSuggestor;
-        int height = 0;
+        int suggestorHeight = 0;
+        int messagesY = 0;
+        // chatSuggestor
         if (accessor.getWindow() != null && accessor.getPendingSuggestions() != null && accessor.getPendingSuggestions().isDone()) {
             Suggestions suggestions = accessor.getPendingSuggestions().join();
             if (!suggestions.isEmpty())
-                height = Math.min(accessor.getSortSuggestions(suggestions).size(), accessor.getMaxSuggestionSize()) * 12 + 1;
+                suggestorHeight = Math.min(accessor.getSortSuggestions(suggestions).size(), accessor.getMaxSuggestionSize()) * 12 + 1;
+        }
+        //messages
+        else if (!accessor.getMessages().isEmpty()) {
+            int i = accessor.getMessages().size() - 1;
+            messagesY = accessor.isChatScreenSized() ? this.height - 14 - 13 - 12 * i : 72 + 12 * i;
+            messagesY -= 12;
         }
 
         float indicatorX = Math.min(TextFieldWidgetUtil.getCursorX(chatField), chatField.getWidth() - 20);
-        float indicatorY = this.height - 27 - height;
+        float indicatorY = messagesY == 0 ? this.height - 27 - suggestorHeight : messagesY;
 
         animationUtil.init(0, 0);
         animationUtil.calculateAnimation(indicatorX, 0, 0.7f);
