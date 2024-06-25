@@ -11,7 +11,7 @@ modrinth {
 	token = System.getenv("MODRINTH_TOKEN")
 	changelog = rootProject.file("changelog.txt").text
 	projectId = "qyulnpBL"
-	versionNumber = project.mod_version
+	versionNumber = "mc${project.minecraft_version}-${project.mod_version}"
 	versionName = "Korean Chat Patch " + project.mod_version
 	versionType = "release"
 	uploadFile = remapJar
@@ -19,12 +19,13 @@ modrinth {
 	loaders = ["fabric"]
 	dependencies {
 		required.project "fabric-api"
+		optional.project "modmenu"
 	}
 }
 
 
 base {
-	archivesName = project.archives_base_name
+	archivesName = "${project.archives_base_name}-mc${project.minecraft_version}"
 }
 
 repositories {
