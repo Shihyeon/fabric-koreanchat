@@ -22,7 +22,7 @@ public abstract class ChatScreenMixin extends Screen {
     protected TextFieldWidget chatField;
 
     @Unique
-    private AnimationUtil animationUtil = new AnimationUtil();
+    private final AnimationUtil animationUtil = new AnimationUtil();
 
     protected ChatScreenMixin(Text title) {
         super(title);
@@ -31,8 +31,11 @@ public abstract class ChatScreenMixin extends Screen {
     @Inject(at = {@At(value = "HEAD")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         float indicatorX = Math.min(TextFieldWidgetUtil.getCursorX(chatField), chatField.getWidth() - 20);
-        Indicator.showIndicator(context,
-                animationUtil.getAnimatedX(indicatorX, 0.7f) + 2, this.height - 27,
-                false);
+        float indicatorY = this.height - 27;
+
+        animationUtil.init(0, this.height - 27);
+        animationUtil.calculateAnimation(indicatorX, indicatorY, 0.7f);
+
+        Indicator.showIndicator(context, animationUtil.getResultX(), animationUtil.getResultY(), false);
     }
 }

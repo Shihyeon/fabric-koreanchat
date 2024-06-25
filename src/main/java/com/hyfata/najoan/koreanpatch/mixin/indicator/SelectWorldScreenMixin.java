@@ -17,10 +17,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = {SelectWorldScreen.class})
 public class SelectWorldScreenMixin extends Screen {
-    @Shadow protected TextFieldWidget searchBox;
+
+    @Shadow
+    protected TextFieldWidget searchBox;
 
     @Unique
-    private AnimationUtil animationUtil = null;
+    private final AnimationUtil animationUtil = new AnimationUtil();
 
     protected SelectWorldScreenMixin(Text title) {
         super(title);
@@ -28,11 +30,12 @@ public class SelectWorldScreenMixin extends Screen {
 
     @Inject(at = {@At(value = "TAIL")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        if (animationUtil == null) {
-            animationUtil = new AnimationUtil((float) this.width / 2 - 105);
-        }
         float x = TextFieldWidgetUtil.getCursorX(searchBox);
-        float y = 22f; // from searchBox in init()
-        Indicator.showIndicator(context, animationUtil.getAnimatedX(x, 0.7f) + 15, y - 6, true);
+        float y = 22f - 6; // from searchBox in init()
+
+        animationUtil.init((float) this.width / 2 - 105, 0);
+        animationUtil.calculateAnimation(x, 0, 0.7f);
+
+        Indicator.showIndicator(context, animationUtil.getResultX() + 11, y, true);
     }
 }
