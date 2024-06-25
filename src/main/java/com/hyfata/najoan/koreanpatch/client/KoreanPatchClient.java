@@ -12,7 +12,6 @@ import org.lwjgl.glfw.GLFW;
 public class KoreanPatchClient
 implements ClientModInitializer {
     public static boolean KOREAN = false;
-    public static boolean SEARCH = false;
     public static int KEYCODE = 346;
     public static int SCANCODE = 498;
     public static int currentIndex = 0;
