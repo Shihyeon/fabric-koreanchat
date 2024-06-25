@@ -1,4 +1,5 @@
 {
     "koreanpatch.langtype.english": "En",
-    "koreanpatch.langtype.korean": "Ko"
+    "koreanpatch.langtype.korean": "Ko",
+    "modmenu.descriptionTranslation.koreanpatch": "It allows you to input Hangul naturally, and the Hangul input state does not interfere with other keys."
 }

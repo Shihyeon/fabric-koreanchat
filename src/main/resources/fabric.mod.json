@@ -17,7 +17,7 @@
   },
   "license": "GNU Lesser General Public License v3.0",
   "icon": "assets/koreanpatch/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       "com.hyfata.najoan.koreanpatch.client.KoreanPatchClient"
