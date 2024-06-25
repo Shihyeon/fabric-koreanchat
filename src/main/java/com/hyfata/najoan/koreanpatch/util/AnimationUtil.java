@@ -12,7 +12,6 @@ public class AnimationUtil {
         savedIndicatorX = init;
         savedAnimatedIndicatorX = init;
         animatedIndicatorX = init;
-        System.out.println(init);
     }
     public AnimationUtil() {}
 
