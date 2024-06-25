@@ -21,11 +21,13 @@ public class CreativeInventoryScreenMixin extends Screen {
     @Inject(method = {"render"}, at = @At(value = "TAIL", shift = At.Shift.BY, by = -3))
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (KoreanPatchClient.SEARCH) {
-            int x = (this.width - 176) / 2 + 82; // int var10004 = this.x + 82; in init()
-            int y = (this.height - 166) / 2 + 6; // int var10005 = this.y + 6; in init()
+            // init(): this.searchBox = new TextFieldWidget(this.textRenderer, this.x + 82, this.y + 6, 80
+            // HandledScreen.init(): this.x = (this.width - this.backgroundWidth) / 2
+            int x = (this.width - 176) / 2 + 82;
+            int y = (this.height - 166) / 2 + 6;
             int searchBoxWidth = 80;
 
-            Indicator.showIndicator(context, x + searchBoxWidth + 9, y + 14, true);
+            Indicator.showIndicator(context, x + searchBoxWidth + 8, y + 14, true);
         }
     }
 
