@@ -6,23 +6,24 @@
   "mixins": [
   ],
   "client": [
+    "ChatInputSuggestorAccessor",
+    "CreativeInventoryScreenInvoker",
+    "SelectionManagerMixin",
+    "TextFieldWidgetAccessor",
+    "TextFieldWidgetMixin",
     "indicator.AddServerScreenMixin",
     "indicator.AnvilScreenMixin",
     "indicator.BookEditScreenMixin",
     "indicator.ChatScreenMixin",
     "indicator.CommandBlockScreenMixin",
     "indicator.CreateWorldScreenMixin",
-    "CreativeInventoryScreenInvoker",
     "indicator.CreativeInventoryScreenMixin",
     "indicator.DirectConnectScreenMixin",
     "indicator.EditWorldScreenMixin",
-    "indicator.util.GridScreenTabMixin",
-    "SelectionManagerMixin",
     "indicator.SelectWorldScreenMixin",
     "indicator.SignEditScreenMixin",
-    "indicator.util.TabNavigationWidgetMixin",
-    "TextFieldWidgetAccessor",
-    "TextFieldWidgetMixin"
+    "indicator.util.GridScreenTabMixin",
+    "indicator.util.TabNavigationWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
