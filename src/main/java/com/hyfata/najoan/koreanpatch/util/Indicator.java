@@ -18,30 +18,31 @@ public class Indicator {
     }
 
     public static void showIndicator(DrawContext context, float x, float y, boolean center) {
+        boolean languageType = KoreanPatchClient.KOREAN;
+
         int rgb = 0x000000;
-        int textOpacity = 55 * 255/100; // N% * (0 to 255)/100
-        int backgroundColor = ((textOpacity & 0xFF) << 24) | rgb;
+        int backgroundOpacity = 55 * 255/100; // N% * (0 to 255)/100
+        int backgroundColor = ((backgroundOpacity & 0xFF) << 24) | rgb;
+        int frameColor = languageType ? -65536 : -16711936;
 
-        int frameColor;
-        float len;
-        Text lang;
-
-        if (KoreanPatchClient.KOREAN) {
-            lang = KOREAN;
-            frameColor = -65536;
-        } else {
-            lang = ENGLISH;
-            frameColor = -16711936;
-        }
-        len = 2 + client.textRenderer.getWidth(lang);
+        float width = getIndicatorWidth();
 
         if (center) {
-            x -= len / 2;
+            x -= width / 2;
             y -= 2;
         }
 
-        drawLabel(context, x, y, x+len+1 +1, y+1+10 +1, frameColor, backgroundColor);
-        drawCenteredText(context, lang, x+len/2 +1, y+1 +1);
+        drawLabel(context, x, y, x+width+1 +1, y+1+10 +1, frameColor, backgroundColor);
+        drawCenteredText(context, getLanguage(languageType), x+width/2 +1, y+1 +1);
+    }
+
+    public static float getIndicatorWidth() {
+        Text language = getLanguage(KoreanPatchClient.KOREAN);
+        return 2 + client.textRenderer.getWidth(language);
+    }
+
+    public static Text getLanguage(boolean languageType) {
+        return languageType ? KOREAN : ENGLISH;
     }
 
     private static void drawCenteredText(DrawContext context, Text text, float x, float y) {
