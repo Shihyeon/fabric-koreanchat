@@ -18,6 +18,6 @@ public class AddServerScreenMixin extends Screen {
 
     @Inject(at = {@At(value = "TAIL")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        Indicator.showIndicator(context, this.width / 2, 45, true);
+        Indicator.showCenteredIndicator(context, this.width / 2, 45);
     }
 }

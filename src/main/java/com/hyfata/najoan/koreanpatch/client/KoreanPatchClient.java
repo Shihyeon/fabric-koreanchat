@@ -11,10 +11,8 @@ import org.lwjgl.glfw.GLFW;
 @Environment(value=EnvType.CLIENT)
 public class KoreanPatchClient
 implements ClientModInitializer {
-    public static boolean KOREAN = false;
     public static int KEYCODE = 346;
     public static int SCANCODE = 498;
-    public static int currentIndex = 0;
 
     public void onInitializeClient() {
         if (Platform.isWindows()) {

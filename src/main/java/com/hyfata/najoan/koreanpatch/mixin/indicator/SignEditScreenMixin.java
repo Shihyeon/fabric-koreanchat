@@ -2,6 +2,7 @@ package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
+import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -25,13 +26,13 @@ public abstract class SignEditScreenMixin extends Screen {
 
     @Inject(at = {@At(value="RETURN")}, method = {"render"})
     public void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        Indicator.showIndicator(context, this.width / 2, 54, true);
+        Indicator.showCenteredIndicator(context, this.width / 2, 54);
     }
 
     @Inject(at={@At(value="HEAD")}, method={"keyPressed(III)Z"})
     public void init(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfo) {
         if (this.client.currentScreen != null && (keyCode == KoreanPatchClient.KEYCODE || scanCode == KoreanPatchClient.SCANCODE)) {
-            KoreanPatchClient.KOREAN = !KoreanPatchClient.KOREAN;
+            LanguageUtil.toggleCurrentType();
         }
     }
 }

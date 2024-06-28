@@ -1,90 +1,56 @@
 package com.hyfata.najoan.koreanpatch.util;
 
-import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
+import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.*;
-import net.minecraft.text.Text;
-import org.joml.Matrix4f;
 
 public class Indicator {
     static MinecraftClient client = MinecraftClient.getInstance();
-    static Text KOREAN = Text.translatable("koreanpatch.langtype.korean");
-    static Text ENGLISH = Text.translatable("koreanpatch.langtype.english");
+    private static final float frame = 1f;
+    private static final float margin = 1f;
 
-    public static void showIndicator(DrawContext context, int x, int y, boolean center) {
-        showIndicator(context, (float)x, (float)y, center);
+    public static void showIndicator(DrawContext context, float x, float y) {
+        int rgb = 0x000000;
+        int backgroundOpacity = 55 * 255 / 100; // N% * (0 to 255)/100
+        int backgroundColor = ((backgroundOpacity & 0xFF) << 24) | rgb; // ARGB
+        int frameColor = LanguageUtil.isKorean() ? 0xffff0000 : 0xff00ff00; // ARGB
+
+        int width = LanguageUtil.getCurrentTextWidth();
+        int height = client.textRenderer.fontHeight;
+
+        renderBox(context, x, y, x + frame + width + margin * 2, y + frame + height + margin * 2, frameColor, backgroundColor);
+        RenderUtil.drawCenteredText(context, LanguageUtil.getCurrentText(), x + frame + width / 2f + margin, y + frame + height / 2f + margin);
     }
 
-    public static void showIndicator(DrawContext context, float x, float y, boolean center) {
-        boolean languageType = KoreanPatchClient.KOREAN;
+    public static void showIndicator(DrawContext context, int x, int y) {
+        showIndicator(context, (float) x, (float) y);
+    }
 
-        int rgb = 0x000000;
-        int backgroundOpacity = 55 * 255/100; // N% * (0 to 255)/100
-        int backgroundColor = ((backgroundOpacity & 0xFF) << 24) | rgb;
-        int frameColor = languageType ? -65536 : -16711936;
 
-        float width = getIndicatorWidth();
+    public static void showCenteredIndicator(DrawContext context, float x, float y) {
+        x -= getIndicatorWidth() / 2;
+        y -= getIndicatorHeight() / 2;
+        showIndicator(context, x, y);
+    }
 
-        if (center) {
-            x -= width / 2;
-            y -= 2;
-        }
-
-        drawLabel(context, x, y, x+width+1 +1, y+1+10 +1, frameColor, backgroundColor);
-        drawCenteredText(context, getLanguage(languageType), x+width/2 +1, y+1 +1);
+    public static void showCenteredIndicator(DrawContext context, int x, int y) {
+        showCenteredIndicator(context, (float) x, (float) y);
     }
 
     public static float getIndicatorWidth() {
-        Text language = getLanguage(KoreanPatchClient.KOREAN);
-        return 2 + client.textRenderer.getWidth(language);
+        return frame + LanguageUtil.getCurrentTextWidth() + margin * 2;
     }
 
-    public static Text getLanguage(boolean languageType) {
-        return languageType ? KOREAN : ENGLISH;
+    public static float getIndicatorHeight() {
+        return frame + client.textRenderer.fontHeight + margin * 2;
     }
 
-    private static void drawCenteredText(DrawContext context, Text text, float x, float y) {
-        TextRenderer textRenderer = client.textRenderer;
-        float textWidth = (float) textRenderer.getWidth(text);
-        float xPosition = x - textWidth / 2.0f;
+    private static void renderBox(DrawContext context, float x1, float y1, float x2, float y2, int frameColor, int backgroundColor) {
+        RenderUtil.fill(context, x1, y1, x2, y1 + frame, frameColor); // frame with fixed axis-y1
+        RenderUtil.fill(context, x1, y2, x2, y2 - frame, frameColor); // frame with fixed axis-y2
+        RenderUtil.fill(context, x1, y1, x1 + frame, y2, frameColor); // frame with fixed axis-x1
+        RenderUtil.fill(context, x2, y1, x2 - frame, y2, frameColor); // frame with fixed axis-x2
 
-        Matrix4f matrix = context.getMatrices().peek().getPositionMatrix();
-        VertexConsumerProvider vertexConsumers = context.getVertexConsumers();
-
-        textRenderer.draw(text, xPosition, y, -1, false, matrix, vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
-    }
-
-    private static void drawLabel(DrawContext context, float x1, float y1, float x2, float y2, int frameColor, int backgroundColor) {
-        fill(context, x1, y1, x2, y1+1, frameColor); // frame with fixed axis-y1
-        fill(context, x1, y2, x2, y2-1, frameColor); // frame with fixed axis-y2
-        fill(context, x1, y1, x1+1, y2, frameColor); // frame with fixed axis-x1
-        fill(context, x2, y1, x2-1, y2, frameColor); // frame with fixed axis-x2
-
-        fill(context, x1+1, y1+1, x2-1, y2-1, backgroundColor); // Background
-    }
-
-    private static void fill(DrawContext context, float x1, float y1, float x2, float y2, int color) {
-        Matrix4f matrix = context.getMatrices().peek().getPositionMatrix();
-        float i;
-        if (x1 < x2) {
-            i = x1;
-            x1 = x2;
-            x2 = i;
-        }
-
-        if (y1 < y2) {
-            i = y1;
-            y1 = y2;
-            y2 = i;
-        }
-
-        VertexConsumer vertexConsumer = context.getVertexConsumers().getBuffer(RenderLayer.getGui());
-        vertexConsumer.vertex(matrix, x1, y1, 0f).color(color);
-        vertexConsumer.vertex(matrix, x1, y2, 0f).color(color);
-        vertexConsumer.vertex(matrix, x2, y2, 0f).color(color);
-        vertexConsumer.vertex(matrix, x2, y1, 0f).color(color);
-        context.draw();
+        RenderUtil.fill(context, x1 + frame, y1 + frame, x2 - frame, y2 - frame, backgroundColor); // Background
     }
 }

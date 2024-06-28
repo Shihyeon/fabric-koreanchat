@@ -1,6 +1,6 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
-import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
+import com.hyfata.najoan.koreanpatch.mixin.TabNavigationWidgetInvoker;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;
@@ -30,8 +30,9 @@ public class CreateWorldScreenMixin extends Screen {
 
     @Inject(at = {@At(value="RETURN")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        if (KoreanPatchClient.currentIndex == 0) {
-            int gridHeight = 117; //GridScreenTabMixin.java
+        TabNavigationWidgetInvoker tabInvoker = (TabNavigationWidgetInvoker) tabNavigation;
+        if (tabInvoker.currentTabIndex() == 0) {
+            int gridHeight = 117; // (WrapperWidget) GridWidget.getHeight
 
             // from GameTab class in CreateWorldScreen
             int width = 208;
@@ -44,7 +45,7 @@ public class CreateWorldScreenMixin extends Screen {
 
             // SimplePositioningWidget.class (Found GameTab extends GridScreenTab)
             int pos = (int) MathHelper.lerp(0.16666667F, 0.0F, (float)(screenRect.height() - gridHeight));
-            Indicator.showIndicator(context, this.width / 2 - width / 2 - 10, pos + screenRect.getTop() + space + worldNameFieldHeight / 2 + 1, true);
+            Indicator.showCenteredIndicator(context, this.width / 2 - width / 2 - 10, pos + screenRect.getTop() + space + worldNameFieldHeight / 2 + 1);
         }
     }
 }

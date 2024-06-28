@@ -25,6 +25,6 @@ public class AnvilScreenMixin extends Screen {
     private void customLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         int x = nameField.getX();
         int y = nameField.getY();
-        Indicator.showIndicator(context, x - 10, y, true);
+        Indicator.showCenteredIndicator(context, x - 10, y);
     }
 }

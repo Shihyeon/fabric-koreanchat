@@ -1,11 +1,10 @@
-package com.hyfata.najoan.koreanpatch.util;
+package com.hyfata.najoan.koreanpatch.util.language;
 
 import com.google.common.base.Splitter;
 
 import java.util.List;
 
 public class HangulProcessor {
-    static String chosungTable = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
     static String jungsungTable = "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ";
     static String jongsungTable = "\u0000ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
     static List<String> jungsungCombiTable = Splitter.on(",").splitToList(",,,,,,,,,ㅗㅏ,ㅗㅐ,ㅗㅣ,,,ㅜㅓ,ㅜㅔ,ㅜㅣ,,,ㅡㅣ,ㅣ");
@@ -17,10 +16,6 @@ public class HangulProcessor {
 
     public static boolean isMoeum(char c) {
         return c >= 0x314F && c <= 0x3163;
-    }
-
-    public static boolean isChosung(char c) {
-        return getChosung(c) != -1;
     }
 
     public static boolean isJungsung(char c) {
@@ -37,10 +32,6 @@ public class HangulProcessor {
 
     public static boolean isJongsung(char p, char c) {
         return getJongsung(p, c) != -1;
-    }
-
-    public static int getChosung(char c) {
-        return chosungTable.indexOf(c);
     }
 
     public static int getJungsung(char c) {

@@ -2,8 +2,9 @@ package com.hyfata.najoan.koreanpatch.mixin;
 
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.keyboard.KeyboardLayout;
-import com.hyfata.najoan.koreanpatch.util.HangulProcessor;
-import com.hyfata.najoan.koreanpatch.util.HangulUtil;
+import com.hyfata.najoan.koreanpatch.util.language.HangulProcessor;
+import com.hyfata.najoan.koreanpatch.util.language.HangulUtil;
+import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.JigsawBlockScreen;
@@ -253,7 +254,7 @@ public abstract class TextFieldWidgetMixin {
         if (this.client.currentScreen != null &&
                 !(this.client.currentScreen instanceof JigsawBlockScreen) &&
                 !(this.client.currentScreen instanceof StructureBlockScreen) &&
-                KoreanPatchClient.KOREAN && this.isEditable() && Character.charCount(chr) == 1)
+                LanguageUtil.isKorean() && this.isEditable() && Character.charCount(chr) == 1)
         {
             typedTextField(chr, modifiers, cir);
         }
@@ -267,7 +268,7 @@ public abstract class TextFieldWidgetMixin {
                 !(client.currentScreen instanceof StructureBlockScreen))
         {
             if (keyCode == KoreanPatchClient.KEYCODE || scanCode == KoreanPatchClient.SCANCODE) {
-                KoreanPatchClient.KOREAN = !KoreanPatchClient.KOREAN;
+                LanguageUtil.toggleCurrentType();
             }
             if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
                 if (onBackspaceKeyPressed()) {

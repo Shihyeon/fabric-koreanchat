@@ -9,6 +9,7 @@
     "ChatInputSuggestorAccessor",
     "CreativeInventoryScreenInvoker",
     "SelectionManagerMixin",
+    "TabNavigationWidgetInvoker",
     "TextFieldWidgetAccessor",
     "TextFieldWidgetMixin",
     "indicator.AddServerScreenMixin",
@@ -21,9 +22,7 @@
     "indicator.DirectConnectScreenMixin",
     "indicator.EditWorldScreenMixin",
     "indicator.SelectWorldScreenMixin",
-    "indicator.SignEditScreenMixin",
-    "indicator.util.GridScreenTabMixin",
-    "indicator.util.TabNavigationWidgetMixin"
+    "indicator.SignEditScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

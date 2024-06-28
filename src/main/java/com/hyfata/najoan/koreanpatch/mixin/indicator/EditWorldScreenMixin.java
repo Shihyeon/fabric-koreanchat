@@ -24,6 +24,6 @@ public class EditWorldScreenMixin extends Screen {
 
     @Inject(at = {@At(value = "TAIL")}, method = {"render"})
     public void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        Indicator.showIndicator(context, layout.getX()-16, layout.getY()+43, false);
+        Indicator.showIndicator(context, layout.getX()-16, layout.getY()+43);
     }
 }

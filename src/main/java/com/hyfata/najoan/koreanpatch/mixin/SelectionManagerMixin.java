@@ -5,10 +5,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.keyboard.KeyboardLayout;
-import com.hyfata.najoan.koreanpatch.util.HangulProcessor;
-import com.hyfata.najoan.koreanpatch.util.HangulUtil;
+import com.hyfata.najoan.koreanpatch.util.language.HangulProcessor;
+import com.hyfata.najoan.koreanpatch.util.language.HangulUtil;
+import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.SelectionManager;
@@ -45,7 +45,7 @@ public abstract class SelectionManagerMixin {
 
     @Inject(at={@At(value="HEAD")}, method={"insert(C)Z"}, cancellable=true)
     public void insertChar(char chr, CallbackInfoReturnable<Boolean> cir) {
-        if (this.client.currentScreen != null && KoreanPatchClient.KOREAN) {
+        if (this.client.currentScreen != null && LanguageUtil.isKorean()) {
             cir.setReturnValue(Boolean.TRUE);
             if (chr == ' ') {
                 this.writeText(String.valueOf(chr));
@@ -72,7 +72,7 @@ public abstract class SelectionManagerMixin {
     @Inject(at={@At(value="HEAD")}, method={"insert(Ljava/lang/String;)V"}, cancellable=true)
     public void insertString(String string, CallbackInfo ci) {
         for (char chr : string.toCharArray()) {
-            if (this.client.currentScreen == null || !KoreanPatchClient.KOREAN) continue;
+            if (this.client.currentScreen == null || !LanguageUtil.isKorean()) continue;
             ci.cancel();
             if (chr == ' ') {
                 this.writeText(String.valueOf(chr));
@@ -126,8 +126,9 @@ public abstract class SelectionManagerMixin {
             int jung = (code % (21 * 28)) / 28;
             int jong = (code % (21 * 28)) % 28;
 
+            char[] ch_arr;
             if (jong != 0) {
-                char[] ch_arr = KeyboardLayout.INSTANCE.jongsung_ref_table.get(jong).toCharArray();
+                ch_arr = KeyboardLayout.INSTANCE.jongsung_ref_table.get(jong).toCharArray();
                 if (ch_arr.length == 2) {
                     jong = KeyboardLayout.INSTANCE.jongsung_table.indexOf(ch_arr[0]);
                 } else {
@@ -135,20 +136,18 @@ public abstract class SelectionManagerMixin {
                 }
                 char c = HangulProcessor.synthesizeHangulCharacter(cho, jung, jong);
                 this.modifyText(c);
-                return true;
             } else {
-                char[] ch_arr = KeyboardLayout.INSTANCE.jungsung_ref_table.get(jung).toCharArray();
+                ch_arr = KeyboardLayout.INSTANCE.jungsung_ref_table.get(jung).toCharArray();
                 if (ch_arr.length == 2) {
                     jung = KeyboardLayout.INSTANCE.jungsung_table.indexOf(ch_arr[0]);
                     char c = HangulProcessor.synthesizeHangulCharacter(cho, jung, 0);
                     this.modifyText(c);
-                    return true;
                 } else {
                     char c = KeyboardLayout.INSTANCE.chosung_table.charAt(cho);
                     this.modifyText(c);
-                    return true;
                 }
             }
+            return true;
         } else if (HangulProcessor.isHangulCharacter(ch)) {
             KeyboardLayout.INSTANCE.assemblePosition = -1;
             return false;

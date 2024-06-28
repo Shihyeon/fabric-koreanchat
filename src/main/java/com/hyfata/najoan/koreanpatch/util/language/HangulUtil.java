@@ -1,4 +1,4 @@
-package com.hyfata.najoan.koreanpatch.util;
+package com.hyfata.najoan.koreanpatch.util.language;
 
 import com.hyfata.najoan.koreanpatch.keyboard.KeyboardLayout;
 import com.hyfata.najoan.koreanpatch.keyboard.QwertyLayout;

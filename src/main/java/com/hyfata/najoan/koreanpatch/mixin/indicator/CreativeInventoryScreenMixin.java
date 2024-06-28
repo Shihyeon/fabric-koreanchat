@@ -30,7 +30,7 @@ public class CreativeInventoryScreenMixin extends Screen {
             int y = (this.height - 166) / 2 + 6;
             int searchBoxWidth = 80;
 
-            Indicator.showIndicator(context, x + searchBoxWidth + 8, y + 14, true);
+            Indicator.showCenteredIndicator(context, x + searchBoxWidth + 8, y + 14);
         }
     }
 
