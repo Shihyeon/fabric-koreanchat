@@ -26,7 +26,6 @@ public class Indicator {
         showIndicator(context, (float) x, (float) y);
     }
 
-
     public static void showCenteredIndicator(DrawContext context, float x, float y) {
         x -= getIndicatorWidth() / 2;
         y -= getIndicatorHeight() / 2;
