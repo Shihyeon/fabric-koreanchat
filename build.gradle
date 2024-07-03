@@ -19,7 +19,7 @@ modrinth {
 	versionName = "Korean Chat Patch " + project.mod_version
 	versionType = "release"
 	uploadFile = remapJar
-	gameVersions = ["1.21"]
+	gameVersions = ["${project.minecraft_version}"]
 	loaders = ["fabric"]
 	dependencies {
 		required.project "fabric-api"

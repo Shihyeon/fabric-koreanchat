@@ -28,7 +28,9 @@ public abstract class BookEditScreenMixin extends Screen {
     @Shadow
     protected abstract BookEditScreen.PageContent getPageContent();
 
-    @Shadow private boolean signing;
+    @Shadow
+    private boolean signing;
+
     @Unique
     private final MinecraftClient client = MinecraftClient.getInstance();
 
