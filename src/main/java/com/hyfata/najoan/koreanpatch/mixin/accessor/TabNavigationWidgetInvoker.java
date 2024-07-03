@@ -1,4 +1,4 @@
-package com.hyfata.najoan.koreanpatch.mixin;
+package com.hyfata.najoan.koreanpatch.mixin.accessor;
 
 import net.minecraft.client.gui.widget.TabNavigationWidget;
 import org.spongepowered.asm.mixin.Mixin;

@@ -3,6 +3,8 @@ package com.hyfata.najoan.koreanpatch.util;
 import org.lwjgl.glfw.GLFW;
 
 public class AnimationUtil {
+    private static final float animationDuration = 0.7f;
+
     float[] savedIndicator = new float[2];
     float[] savedAnimatedIndicator = new float[2];
     float[] animatedIndicator = new float[2];
@@ -25,7 +27,7 @@ public class AnimationUtil {
         }
     }
 
-    public void calculateAnimation(float targetX, float targetY, float animationDuration) {
+    public void calculateAnimation(float targetX, float targetY) {
         float[] indicator = new float[]{targetX, targetY};
         for (int i=0; i<2; i++) {
             if (indicator[i] != savedIndicator[i]) {

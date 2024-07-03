@@ -1,6 +1,6 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
-import com.hyfata.najoan.koreanpatch.mixin.ChatInputSuggestorAccessor;
+import com.hyfata.najoan.koreanpatch.mixin.accessor.ChatInputSuggestorAccessor;
 import com.hyfata.najoan.koreanpatch.util.AnimationUtil;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import com.hyfata.najoan.koreanpatch.util.TextFieldWidgetUtil;
@@ -56,7 +56,7 @@ public abstract class ChatScreenMixin extends Screen {
         float indicatorY = messagesY == 0 ? this.height - 27 - suggestorHeight : messagesY;
 
         animationUtil.init(0, 0);
-        animationUtil.calculateAnimation(indicatorX, 0, 0.7f);
+        animationUtil.calculateAnimation(indicatorX, 0);
 
         context.getMatrices().translate(0.0F, 0.0F, 200.0F);
         Indicator.showIndicator(context, animationUtil.getResultX(), indicatorY);

@@ -56,7 +56,7 @@ public class AddServerScreenMixin extends Screen {
         }
 
         animationUtil.init(textX, 0);
-        animationUtil.calculateAnimation(x, 0, 0.7f);
+        animationUtil.calculateAnimation(x, 0);
 
         context.getMatrices().translate(0.0F, 0.0F, 200.0F);
         Indicator.showIndicator(context, animationUtil.getResultX() + 4, y);

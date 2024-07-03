@@ -1,6 +1,6 @@
 package com.hyfata.najoan.koreanpatch.util;
 
-import com.hyfata.najoan.koreanpatch.mixin.TextFieldWidgetAccessor;
+import com.hyfata.najoan.koreanpatch.mixin.accessor.TextFieldWidgetAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;

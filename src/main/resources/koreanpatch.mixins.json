@@ -6,12 +6,13 @@
   "mixins": [
   ],
   "client": [
-    "ChatInputSuggestorAccessor",
-    "CreativeInventoryScreenInvoker",
     "SelectionManagerMixin",
-    "TabNavigationWidgetInvoker",
-    "TextFieldWidgetAccessor",
     "TextFieldWidgetMixin",
+    "accessor.BookEditScreenPageContentAccessor",
+    "accessor.ChatInputSuggestorAccessor",
+    "accessor.CreativeInventoryScreenInvoker",
+    "accessor.TabNavigationWidgetInvoker",
+    "accessor.TextFieldWidgetAccessor",
     "indicator.AddServerScreenMixin",
     "indicator.AnvilScreenMixin",
     "indicator.BookEditScreenMixin",

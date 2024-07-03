@@ -1,4 +1,4 @@
-package com.hyfata.najoan.koreanpatch.mixin;
+package com.hyfata.najoan.koreanpatch.mixin.accessor;
 
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;

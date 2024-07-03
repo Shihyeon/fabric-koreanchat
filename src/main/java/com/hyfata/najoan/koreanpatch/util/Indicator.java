@@ -15,10 +15,10 @@ public class Indicator {
         int backgroundColor = ((backgroundOpacity & 0xFF) << 24) | rgb; // ARGB
         int frameColor = LanguageUtil.isKorean() ? 0xffff0000 : 0xff00ff00; // ARGB
 
-        int width = LanguageUtil.getCurrentTextWidth();
-        int height = client.textRenderer.fontHeight;
+        float width = (float) LanguageUtil.getCurrentTextWidth();
+        float height = (float) client.textRenderer.fontHeight;
 
-        renderBox(context, x, y, x + frame + width + margin * 2, y + frame + height + margin * 2, frameColor, backgroundColor);
+        renderBox(context, x, y, x + frame + width + margin * 2f, y + frame + height + margin * 2f, frameColor, backgroundColor);
         RenderUtil.drawCenteredText(context, LanguageUtil.getCurrentText(), x + frame + width / 2f + margin, y + frame + height / 2f + margin);
     }
 
@@ -27,8 +27,8 @@ public class Indicator {
     }
 
     public static void showCenteredIndicator(DrawContext context, float x, float y) {
-        x -= getIndicatorWidth() / 2;
-        y -= getIndicatorHeight() / 2;
+        x -= getIndicatorWidth() / 2f;
+        y -= getIndicatorHeight() / 2f;
         showIndicator(context, x, y);
     }
 
@@ -37,11 +37,11 @@ public class Indicator {
     }
 
     public static float getIndicatorWidth() {
-        return frame + LanguageUtil.getCurrentTextWidth() + margin * 2;
+        return frame + (float) LanguageUtil.getCurrentTextWidth() + margin * 2f;
     }
 
     public static float getIndicatorHeight() {
-        return frame + client.textRenderer.fontHeight + margin * 2;
+        return frame + (float) client.textRenderer.fontHeight + margin * 2f;
     }
 
     private static void renderBox(DrawContext context, float x1, float y1, float x2, float y2, int frameColor, int backgroundColor) {

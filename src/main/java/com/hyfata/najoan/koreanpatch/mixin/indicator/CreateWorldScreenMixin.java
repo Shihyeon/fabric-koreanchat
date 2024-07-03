@@ -1,6 +1,6 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
-import com.hyfata.najoan.koreanpatch.mixin.TabNavigationWidgetInvoker;
+import com.hyfata.najoan.koreanpatch.mixin.accessor.TabNavigationWidgetInvoker;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenRect;

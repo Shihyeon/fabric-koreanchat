@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = {AnvilScreen.class})
 public class AnvilScreenMixin extends Screen {
+
     @Shadow
     private TextFieldWidget nameField;
 
@@ -23,8 +24,9 @@ public class AnvilScreenMixin extends Screen {
 
     @Inject(at = {@At(value = "TAIL")}, method = {"renderForeground"})
     private void customLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        int x = nameField.getX();
-        int y = nameField.getY();
-        Indicator.showCenteredIndicator(context, x - 10, y);
+        float x = nameField.getX() + nameField.getWidth() - Indicator.getIndicatorWidth();
+        float y = nameField.getY() - Indicator.getIndicatorHeight() - 6;
+
+        Indicator.showIndicator(context, x, y);
     }
 }

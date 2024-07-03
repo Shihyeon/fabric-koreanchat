@@ -2,6 +2,7 @@ package com.hyfata.najoan.koreanpatch.mixin;
 
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.keyboard.KeyboardLayout;
+import com.hyfata.najoan.koreanpatch.mixin.accessor.CreativeInventoryScreenInvoker;
 import com.hyfata.najoan.koreanpatch.util.language.HangulProcessor;
 import com.hyfata.najoan.koreanpatch.util.language.HangulUtil;
 import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;

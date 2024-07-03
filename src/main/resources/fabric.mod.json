@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "koreanpatch",
   "version": "${version}",
+  "accessWidener": "koreanpatch.accesswinder",
   "name": "Korean Patch",
   "description": "This is an Korean Patch Mod (Fabric)",
   "authors": [

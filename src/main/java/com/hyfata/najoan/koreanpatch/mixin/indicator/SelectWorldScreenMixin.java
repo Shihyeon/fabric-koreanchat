@@ -31,10 +31,10 @@ public class SelectWorldScreenMixin extends Screen {
     @Inject(at = {@At(value = "TAIL")}, method = {"render"})
     private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
         float x = TextFieldWidgetUtil.getCursorX(searchBox);
-        float y = 22f - 8; // from searchBox in init()
+        float y = TextFieldWidgetUtil.calculateIndicatorY(searchBox);
 
         animationUtil.init((float) this.width / 2 - 105, 0);
-        animationUtil.calculateAnimation(x, 0, 0.7f);
+        animationUtil.calculateAnimation(x, 0);
 
         context.getMatrices().translate(0.0F, 0.0F, 200.0F);
         Indicator.showIndicator(context, animationUtil.getResultX() + 4, y);
