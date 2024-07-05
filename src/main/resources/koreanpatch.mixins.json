@@ -10,6 +10,7 @@
     "TextFieldWidgetMixin",
     "accessor.BookEditScreenPageContentAccessor",
     "accessor.ChatInputSuggestorAccessor",
+    "accessor.CreateWorldScreenGameTabAccessor",
     "accessor.CreativeInventoryScreenInvoker",
     "accessor.TabNavigationWidgetInvoker",
     "accessor.TextFieldWidgetAccessor",

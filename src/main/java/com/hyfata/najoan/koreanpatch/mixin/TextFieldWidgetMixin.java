@@ -10,6 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.JigsawBlockScreen;
 import net.minecraft.client.gui.screen.ingame.StructureBlockScreen;
+import net.minecraft.client.gui.screen.world.CreateWorldScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Consumer;
 
-@Mixin(value={TextFieldWidget.class})
+@Mixin(value = {TextFieldWidget.class})
 public abstract class TextFieldWidgetMixin {
     @Shadow
     private Consumer<String> changedListener;
@@ -55,7 +56,8 @@ public abstract class TextFieldWidgetMixin {
     @Shadow
     public abstract boolean isActive();
 
-    @Shadow public abstract String getSelectedText();
+    @Shadow
+    public abstract String getSelectedText();
 
     @Unique
     public void writeText(String str) {
@@ -78,7 +80,7 @@ public abstract class TextFieldWidgetMixin {
             return;
         }
         if (this.client.currentScreen instanceof CreativeInventoryScreen && !this.getText().isEmpty()) {
-            ((CreativeInventoryScreenInvoker)this.client.currentScreen).updateCreativeSearch();
+            ((CreativeInventoryScreenInvoker) this.client.currentScreen).updateCreativeSearch();
         }
     }
 
@@ -250,24 +252,24 @@ public abstract class TextFieldWidgetMixin {
         }
     }
 
-    @Inject(at={@At(value="HEAD")}, method={"charTyped(CI)Z"}, cancellable=true)
+    @Inject(at = {@At(value = "HEAD")}, method = {"charTyped(CI)Z"}, cancellable = true)
     public void charTyped(char chr, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         if (this.client.currentScreen != null &&
                 !(this.client.currentScreen instanceof JigsawBlockScreen) &&
                 !(this.client.currentScreen instanceof StructureBlockScreen) &&
-                LanguageUtil.isKorean() && this.isEditable() && Character.charCount(chr) == 1)
-        {
+                !(this.client.currentScreen instanceof CreateWorldScreen && !KoreanPatchClient.gameTab) &&
+                LanguageUtil.isKorean() && this.isEditable() && Character.charCount(chr) == 1) {
             typedTextField(chr, modifiers, cir);
         }
     }
 
-    @Inject(at={@At(value="HEAD")}, method={"keyPressed(III)Z"}, cancellable=true)
+    @Inject(at = {@At(value = "HEAD")}, method = {"keyPressed(III)Z"}, cancellable = true)
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfo) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.currentScreen != null &&
                 !(client.currentScreen instanceof JigsawBlockScreen) &&
-                !(client.currentScreen instanceof StructureBlockScreen))
-        {
+                !(client.currentScreen instanceof StructureBlockScreen) &&
+                !(client.currentScreen instanceof CreateWorldScreen && !KoreanPatchClient.gameTab)) {
             if (keyCode == KoreanPatchClient.KEYCODE || scanCode == KoreanPatchClient.SCANCODE) {
                 LanguageUtil.toggleCurrentType();
             }
