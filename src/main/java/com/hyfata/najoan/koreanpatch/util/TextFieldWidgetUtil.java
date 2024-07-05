@@ -14,7 +14,7 @@ public class TextFieldWidgetUtil {
         int selectionStart = accessor.getSelectionStart();
 
         float cursorX = textField.getX() + client.textRenderer.getTextHandler().getWidth(textField.getText().substring(firstCharacterIndex, selectionStart));
-        float endX = textField.getX() + textField.getWidth() - Indicator.getIndicatorWidth();
+        float endX = textField.getX() + textField.getWidth() - 1.2f * Indicator.getIndicatorWidth();
 
         return Math.min(cursorX, endX);
     }
