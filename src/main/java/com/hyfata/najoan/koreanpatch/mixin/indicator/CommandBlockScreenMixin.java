@@ -1,23 +1,43 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
+import com.hyfata.najoan.koreanpatch.util.AnimationUtil;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
+import com.hyfata.najoan.koreanpatch.util.TextFieldWidgetUtil;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractCommandBlockScreen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = AbstractCommandBlockScreen.class)
 public class CommandBlockScreenMixin extends Screen {
+    @Shadow
+    protected TextFieldWidget consoleCommandTextField;
+
+    @Shadow @Final private static Text COMMAND_TEXT;
+    @Unique
+    AnimationUtil animationUtil = new AnimationUtil();
+
     protected CommandBlockScreenMixin(Text title) {
         super(title);
     }
 
-    @Inject(at = {@At(value="TAIL")}, method = {"render"})
-    private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        Indicator.showCenteredIndicator(context, this.width / 2, 35);
+    @Inject(at = {@At(value = "TAIL")}, method = {"render"})
+    private void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        int textX = this.width / 2 - 150 + 1;
+        float x = TextFieldWidgetUtil.getCursorXWithText(consoleCommandTextField, COMMAND_TEXT, textX) + 4;
+        float y = TextFieldWidgetUtil.calculateIndicatorY(consoleCommandTextField);
+
+        animationUtil.init(x - 4, 0);
+        animationUtil.calculateAnimation(x, 0);
+
+        Indicator.showIndicator(context, animationUtil.getResultX(), y);
     }
 }

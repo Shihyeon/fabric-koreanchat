@@ -48,7 +48,7 @@ public abstract class BookEditScreenMixin extends Screen {
             y = pageContent.getPosition().y + 32 + 4.5f; //absolutePositionToScreenPosition() + (fontHeight(9) / 2)
         }
 
-        animationUtil.init(0, y);
+        animationUtil.init(0, y - 4);
         animationUtil.calculateAnimation(0, y);
 
         Indicator.showCenteredIndicator(context, x + 10, animationUtil.getResultY());

@@ -13,7 +13,10 @@ public class TextFieldWidgetUtil {
         int firstCharacterIndex = accessor.getFirstCharacterIndex();
         int selectionStart = accessor.getSelectionStart();
 
-        return textField.getCharacterX(selectionStart - firstCharacterIndex);
+        float cursorX = textField.getX() + client.textRenderer.getTextHandler().getWidth(textField.getText().substring(firstCharacterIndex, selectionStart));
+        float endX = textField.getX() + textField.getWidth() - Indicator.getIndicatorWidth();
+
+        return Math.min(cursorX, endX);
     }
 
     public static float calculateIndicatorY(TextFieldWidget textField) {

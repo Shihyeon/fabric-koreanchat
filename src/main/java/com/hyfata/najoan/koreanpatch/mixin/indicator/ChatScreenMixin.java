@@ -52,7 +52,7 @@ public abstract class ChatScreenMixin extends Screen {
             messagesY -= 12;
         }
 
-        float indicatorX = Math.min(TextFieldWidgetUtil.getCursorX(chatField), chatField.getWidth() - (Indicator.getIndicatorWidth()));
+        float indicatorX = TextFieldWidgetUtil.getCursorX(chatField);
         float indicatorY = messagesY == 0 ? this.height - 27 - suggestorHeight : messagesY;
 
         animationUtil.init(0, 0);
