@@ -26,12 +26,13 @@ public abstract class SignEditScreenMixin extends Screen {
 
     @Inject(at = {@At(value="RETURN")}, method = {"render"})
     public void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci){
-        Indicator.showCenteredIndicator(context, this.width / 2, 54);
+        Indicator.showCenteredIndicator(context, this.width / 2, 60);
     }
 
     @Inject(at={@At(value="HEAD")}, method={"keyPressed(III)Z"})
     public void init(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfo) {
-        if (this.client.currentScreen != null && (keyCode == KoreanPatchClient.KEYCODE || scanCode == KoreanPatchClient.SCANCODE)) {
+        if (this.client.currentScreen != null &&
+                KoreanPatchClient.koreanpatchKeyBinding.matchesKey(keyCode, scanCode)) {
             LanguageUtil.toggleCurrentType();
         }
     }
