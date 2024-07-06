@@ -270,7 +270,7 @@ public abstract class TextFieldWidgetMixin {
                 !(client.currentScreen instanceof JigsawBlockScreen) &&
                 !(client.currentScreen instanceof StructureBlockScreen) &&
                 !(client.currentScreen instanceof CreateWorldScreen && !KoreanPatchClient.gameTab)) {
-            if (keyCode == KoreanPatchClient.KEYCODE || scanCode == KoreanPatchClient.SCANCODE) {
+            if (KoreanPatchClient.koreanpatchKeyBinding.matchesKey(keyCode, scanCode)) {
                 LanguageUtil.toggleCurrentType();
             }
             if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
