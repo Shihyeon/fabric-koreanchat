@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 
 public interface InputController {
     void setFocus(final boolean focus);
+    void toggleFocus();
 
     static InputController getController() {
         return switch (GLFW.glfwGetPlatform()) {

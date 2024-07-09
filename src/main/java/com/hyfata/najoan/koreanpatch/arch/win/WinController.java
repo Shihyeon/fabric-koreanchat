@@ -1,5 +1,6 @@
 package com.hyfata.najoan.koreanpatch.arch.win;
 
+import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.plugin.InputController;
 import com.hyfata.najoan.koreanpatch.util.ModLogger;
 import net.minecraft.client.MinecraftClient;
@@ -13,7 +14,13 @@ public class WinController implements InputController {
             return;
         }
         this.focus = focus;
+        KoreanPatchClient.IME = focus;
         WinHandle.INSTANCE.set_focus(focus ? 1 : 0);
+    }
+
+    @Override
+    public void toggleFocus() {
+        setFocus(!focus);
     }
 
     WinHandle.PreeditCallback pc = (str, cursor, length) -> {};

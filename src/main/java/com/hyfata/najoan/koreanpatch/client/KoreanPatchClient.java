@@ -26,11 +26,13 @@ import java.net.URL;
 public class KoreanPatchClient
         implements ClientModInitializer {
 
-    public static final boolean DEBUG = false;
-    public static KeyBinding koreanpatchKeyBinding;
-    public static boolean gameTab = false;
-    public static int KEYCODE = 346;
+    public static final boolean DEBUG = true;
     private static InputController controller;
+    public static KeyBinding langBinding, imeBinding;
+    public static int KEYCODE = 346;
+    public static boolean IME = false;
+
+    public static boolean gameTab = false;
 
     public void onInitializeClient() {
         registerEvents();
@@ -41,10 +43,17 @@ public class KoreanPatchClient
             KEYCODE = GLFW.GLFW_KEY_LEFT_CONTROL;
         }
 
-        koreanpatchKeyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        langBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "koreanpatch.key.toggle_langtype",
                 InputUtil.Type.KEYSYM,
                 KEYCODE,
+                "koreanpatch.key.categories"
+        ));
+
+        imeBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "koreanpatch.key.toggle_ime",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_I,
                 "koreanpatch.key.categories"
         ));
     }
@@ -56,12 +65,13 @@ public class KoreanPatchClient
         // on Update Screen
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             System.out.println("Screen opened: " + screen.getClass().getName());
-            if (KoreanPatchClient.getController() != null)
+            if (KoreanPatchClient.getController() != null) {
                 KoreanPatchClient.getController().setFocus(true);
+            }
             // TODO: add allow/disallow screens
         });
 
-        // In-game(screen not opened)
+        // In-Game
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.currentScreen == null) {
                 if (KoreanPatchClient.getController() != null)

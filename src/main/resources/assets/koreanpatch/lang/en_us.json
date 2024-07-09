@@ -1,6 +1,7 @@
 {
     "koreanpatch.key.categories": "Korean Patch",
     "koreanpatch.key.toggle_langtype": "Toggle Language Type (English/Korean)",
+    "koreanpatch.key.toggle_ime": "Toggle IME (Left Ctrl +)",
 
     "koreanpatch.langtype.english": "En",
     "koreanpatch.langtype.korean": "Ko",

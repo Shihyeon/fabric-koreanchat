@@ -1,5 +1,6 @@
 package com.hyfata.najoan.koreanpatch.util.language;
 
+import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -34,6 +35,9 @@ public class LanguageUtil {
     }
     
     public static OrderedText getCurrentText() {
+        if (KoreanPatchClient.IME) {
+            return Text.literal("IME").asOrderedText();
+        }
         return switch (currentType) {
             case EN -> EN_TEXT.asOrderedText();
             case KO -> KO_TEXT.asOrderedText();

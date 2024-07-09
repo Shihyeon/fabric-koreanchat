@@ -57,7 +57,7 @@ public abstract class BookEditScreenMixin extends Screen {
     @Inject(at = {@At(value = "HEAD")}, method = {"keyPressed(III)Z"})
     private void init(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfo) {
         if (this.client.currentScreen != null &&
-                KoreanPatchClient.koreanpatchKeyBinding.matchesKey(keyCode, scanCode)) {
+                KoreanPatchClient.langBinding.matchesKey(keyCode, scanCode)) {
             LanguageUtil.toggleCurrentType();
         }
     }

@@ -6,6 +6,7 @@
   "mixins": [
   ],
   "client": [
+    "ScreenKeyInputMixin",
     "SelectionManagerMixin",
     "TextFieldWidgetMixin",
     "accessor.BookEditScreenPageContentAccessor",

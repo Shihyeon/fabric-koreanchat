@@ -1,5 +1,6 @@
 package com.hyfata.najoan.koreanpatch.util;
 
+import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -14,6 +15,10 @@ public class Indicator {
         int backgroundOpacity = 55 * 255 / 100; // N% * (0 to 255)/100
         int backgroundColor = ((backgroundOpacity & 0xFF) << 24) | rgb; // ARGB
         int frameColor = LanguageUtil.isKorean() ? 0xffff0000 : 0xff00ff00; // ARGB
+
+        if (KoreanPatchClient.IME) {
+            frameColor = 0xffffffff;
+        }
 
         float width = (float) LanguageUtil.getCurrentTextWidth();
         float height = (float) client.textRenderer.fontHeight;
