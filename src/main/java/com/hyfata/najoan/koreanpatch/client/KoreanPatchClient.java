@@ -44,17 +44,17 @@ public class KoreanPatchClient
         }
 
         langBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "koreanpatch.key.toggle_langtype",
+                "key.koreanpatch.toggle_langtype",
                 InputUtil.Type.KEYSYM,
                 KEYCODE,
-                "koreanpatch.key.categories"
+                "key.categories.koreanpatch"
         ));
 
         imeBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "koreanpatch.key.toggle_ime",
+                "key.koreanpatch.toggle_ime",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_I,
-                "koreanpatch.key.categories"
+                "key.categories.koreanpatch"
         ));
     }
 

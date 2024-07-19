@@ -1,7 +1,7 @@
 {
-    "koreanpatch.key.categories": "Korean Patch",
-    "koreanpatch.key.toggle_langtype": "언어 타입 전환 (영문/한글)",
-    "koreanpatch.key.toggle_ime": "IME 전환 (왼쪽 Ctrl +)",
+    "key.categories.koreanpatch": "Korean Patch",
+    "key.koreanpatch.toggle_langtype": "언어 타입 전환 (영문/한글)",
+    "key.koreanpatch.toggle_ime": "IME 전환 (왼쪽 Ctrl +)",
 
     "koreanpatch.langtype.english": "영문",
     "koreanpatch.langtype.korean": "한글",
