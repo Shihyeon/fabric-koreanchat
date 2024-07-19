@@ -19,7 +19,7 @@ public class LanguageUtil {
     }
 
     public static boolean isKorean() {
-        return getCurrentType() == KO;
+        return getCurrentType() == KO && !KoreanPatchClient.IME;
     }
 
     public static void setCurrentType(int currentType) {
