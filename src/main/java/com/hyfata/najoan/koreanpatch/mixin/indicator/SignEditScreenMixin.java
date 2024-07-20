@@ -1,7 +1,7 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
-import com.hyfata.najoan.koreanpatch.util.AnimationUtil;
+import com.hyfata.najoan.koreanpatch.util.animation.AnimationUtil;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.block.entity.SignBlockEntity;

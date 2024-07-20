@@ -2,6 +2,7 @@ package com.hyfata.najoan.koreanpatch.client;
 
 import com.hyfata.najoan.koreanpatch.plugin.InputController;
 import com.hyfata.najoan.koreanpatch.util.ModLogger;
+import com.hyfata.najoan.koreanpatch.util.ReflectionFieldChecker;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 import net.fabricmc.api.ClientModInitializer;
@@ -11,8 +12,10 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.util.SelectionManager;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -62,20 +65,23 @@ public class KoreanPatchClient
         // register Input Controller
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> KoreanPatchClient.applyController(InputController.getController()));
 
-        // on Update Screen
+        // on Screen change
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            System.out.println("Screen opened: " + screen.getClass().getName());
-            if (KoreanPatchClient.getController() != null) {
-                KoreanPatchClient.getController().setFocus(true);
-            }
-            // TODO: add allow/disallow screens
+            ModLogger.debug("Current screen: " + client.currentScreen);
+            if (KoreanPatchClient.getController() == null || client.currentScreen == null) return;
+
+            boolean hasTextFieldWidget = ReflectionFieldChecker.hasFieldOfType(client.currentScreen, TextFieldWidget.class);
+            boolean hasSelectionManager = ReflectionFieldChecker.hasFieldOfType(client.currentScreen, SelectionManager.class);
+
+            KoreanPatchClient.getController().setFocus(!hasTextFieldWidget && !hasSelectionManager);
         });
 
-        // In-Game
+        // In-game
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (KoreanPatchClient.getController() == null) return;
+
             if (client.currentScreen == null) {
-                if (KoreanPatchClient.getController() != null)
-                    KoreanPatchClient.getController().setFocus(false);
+                KoreanPatchClient.getController().setFocus(false);
             }
         });
     }

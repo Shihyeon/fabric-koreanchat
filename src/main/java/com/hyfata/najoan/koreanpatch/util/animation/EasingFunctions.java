@@ -1,4 +1,4 @@
-package com.hyfata.najoan.koreanpatch.util;
+package com.hyfata.najoan.koreanpatch.util.animation;
 
 public class EasingFunctions {
     public static float easeOutQuad(float t) {

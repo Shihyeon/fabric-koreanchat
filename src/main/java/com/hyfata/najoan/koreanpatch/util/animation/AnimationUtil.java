@@ -1,4 +1,4 @@
-package com.hyfata.najoan.koreanpatch.util;
+package com.hyfata.najoan.koreanpatch.util.animation;
 
 import org.lwjgl.glfw.GLFW;
 

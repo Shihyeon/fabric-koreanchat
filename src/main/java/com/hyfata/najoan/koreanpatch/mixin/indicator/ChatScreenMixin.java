@@ -1,7 +1,7 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
 import com.hyfata.najoan.koreanpatch.mixin.accessor.ChatInputSuggestorAccessor;
-import com.hyfata.najoan.koreanpatch.util.AnimationUtil;
+import com.hyfata.najoan.koreanpatch.util.animation.AnimationUtil;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import com.hyfata.najoan.koreanpatch.util.TextFieldWidgetUtil;
 import com.mojang.brigadier.suggestion.Suggestions;
