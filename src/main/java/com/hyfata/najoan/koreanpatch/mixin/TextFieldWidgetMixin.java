@@ -87,9 +87,6 @@ public abstract class TextFieldWidgetMixin implements ITextFieldWidgetAccessor {
                 !(client.currentScreen instanceof JigsawBlockScreen) &&
                 !(client.currentScreen instanceof StructureBlockScreen) &&
                 !(client.currentScreen instanceof CreateWorldScreen && !KoreanPatchClient.gameTab)) {
-            if (KoreanPatchClient.langBinding.matchesKey(keyCode, scanCode)) {
-                LanguageUtil.toggleCurrentType();
-            }
             if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
                 if (handler.onBackspaceKeyPressed()) {
                     callbackInfo.setReturnValue(Boolean.TRUE);

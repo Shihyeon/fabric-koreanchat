@@ -1,9 +1,7 @@
 package com.hyfata.najoan.koreanpatch.mixin.indicator;
 
-import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.util.animation.AnimationUtil;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
-import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -17,7 +15,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = {AbstractSignEditScreen.class})
 public abstract class SignEditScreenMixin extends Screen {
@@ -48,14 +45,6 @@ public abstract class SignEditScreenMixin extends Screen {
         animationUtil.calculateAnimation(0, y);
 
         Indicator.showCenteredIndicator(context, x, animationUtil.getResultY());
-    }
-
-    @Inject(at = {@At(value = "HEAD")}, method = {"keyPressed(III)Z"})
-    public void init(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfo) {
-        if (this.client.currentScreen != null &&
-                KoreanPatchClient.langBinding.matchesKey(keyCode, scanCode)) {
-            LanguageUtil.toggleCurrentType();
-        }
     }
 }
 
