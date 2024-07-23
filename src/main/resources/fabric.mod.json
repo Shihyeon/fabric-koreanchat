@@ -3,7 +3,7 @@
   "id": "koreanpatch",
   "version": "${version}",
   "accessWidener": "koreanpatch.accesswinder",
-  "name": "Korean Patch",
+  "name": "Korean Patch (backport)",
   "description": "This is an Korean Patch Mod (Fabric)",
   "authors": [
     "Najoan"
