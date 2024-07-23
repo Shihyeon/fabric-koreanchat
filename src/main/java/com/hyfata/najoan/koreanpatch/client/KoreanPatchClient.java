@@ -29,7 +29,7 @@ import java.net.URL;
 public class KoreanPatchClient
         implements ClientModInitializer {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     private static InputController controller;
     public static KeyBinding langBinding, imeBinding;
     public static int KEYCODE = 346;
