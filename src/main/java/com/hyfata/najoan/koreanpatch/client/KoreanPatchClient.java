@@ -1,8 +1,6 @@
 package com.hyfata.najoan.koreanpatch.client;
 
-import com.hyfata.najoan.koreanpatch.plugin.InputController;
 import com.hyfata.najoan.koreanpatch.util.ModLogger;
-import com.hyfata.najoan.koreanpatch.util.ReflectionFieldChecker;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 import net.fabricmc.api.ClientModInitializer;
@@ -10,13 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.SelectionManager;
-import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,69 +21,20 @@ import java.net.URL;
 public class KoreanPatchClient
         implements ClientModInitializer {
 
-    public static final boolean DEBUG = true;
-    private static InputController controller;
-    public static KeyBinding langBinding, imeBinding;
-    public static int KEYCODE = 346;
+    public static final boolean DEBUG = false;
     public static boolean IME = false;
 
     public static boolean gameTab = false;
 
     public void onInitializeClient() {
         registerEvents();
-
-        if (Platform.isWindows()) {
-            KEYCODE = GLFW.GLFW_KEY_RIGHT_ALT;
-        } else {
-            KEYCODE = GLFW.GLFW_KEY_LEFT_CONTROL;
-        }
-
-        langBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.koreanpatch.toggle_langtype",
-                InputUtil.Type.KEYSYM,
-                KEYCODE,
-                "key.categories.koreanpatch"
-        ));
-
-        imeBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.koreanpatch.toggle_ime",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_I,
-                "key.categories.koreanpatch"
-        ));
+        KeyBinds.register();
     }
 
     public void registerEvents() {
-        // register Input Controller
-        ClientLifecycleEvents.CLIENT_STARTED.register(client -> KoreanPatchClient.applyController(InputController.getController()));
-
-        // on Screen change
-        ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            ModLogger.debug("Current screen: " + client.currentScreen);
-            if (KoreanPatchClient.getController() == null || client.currentScreen == null) return;
-
-            boolean hasTextFieldWidget = ReflectionFieldChecker.hasFieldOfType(client.currentScreen, TextFieldWidget.class);
-            boolean hasSelectionManager = ReflectionFieldChecker.hasFieldOfType(client.currentScreen, SelectionManager.class);
-
-            KoreanPatchClient.getController().setFocus(!hasTextFieldWidget && !hasSelectionManager);
-        });
-
-        // In-game
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (KoreanPatchClient.getController() == null) return;
-
-            if (client.currentScreen == null) {
-                KoreanPatchClient.getController().setFocus(false);
-            }
-        });
-    }
-
-    public static void applyController(InputController controller) {
-        KoreanPatchClient.controller = controller;
-    }
-
-    public static InputController getController() {
-        return controller;
+        ClientLifecycleEvents.CLIENT_STARTED.register(EventListener::onClientStarted);
+        ScreenEvents.AFTER_INIT.register(EventListener::afterScreenChange);
+        ClientTickEvents.END_CLIENT_TICK.register(EventListener::onClientTick);
     }
 
     public static String copyLibrary(final String name) {

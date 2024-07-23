@@ -1,6 +1,8 @@
 package com.hyfata.najoan.koreanpatch.mixin;
 
+import com.hyfata.najoan.koreanpatch.client.KeyBinds;
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
+import com.hyfata.najoan.koreanpatch.plugin.InputManager;
 import com.hyfata.najoan.koreanpatch.util.ModLogger;
 import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import net.minecraft.client.Keyboard;
@@ -25,9 +27,9 @@ public class KeyboardMixin {
                 client.currentScreen == null) return;
         ModLogger.debug(keyCode + " " + scanCode + " " + modifiers + " " + action);
 
-        if (KoreanPatchClient.imeBinding.matchesKey(keyCode, scanCode) && modifiers == 2) {
-            KoreanPatchClient.getController().toggleFocus();
-        } else if (KoreanPatchClient.langBinding.matchesKey(keyCode, scanCode) && !KoreanPatchClient.IME) {
+        if (KeyBinds.getImeBinding().matchesKey(keyCode, scanCode) && modifiers == 2) {
+            InputManager.getController().toggleFocus();
+        } else if (KeyBinds.getLangBinding().matchesKey(keyCode, scanCode) && !KoreanPatchClient.IME) {
             LanguageUtil.toggleCurrentType();
         }
     }
