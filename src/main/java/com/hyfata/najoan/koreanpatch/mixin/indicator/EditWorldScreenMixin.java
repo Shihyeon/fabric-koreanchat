@@ -24,7 +24,7 @@ public class EditWorldScreenMixin extends Screen {
 
     @Shadow
     @Final
-    private TextFieldWidget nameFieldWidget;
+    private TextFieldWidget levelNameTextField;
 
     @Shadow @Final private static Text ENTER_NAME_TEXT;
     @Unique
@@ -32,8 +32,8 @@ public class EditWorldScreenMixin extends Screen {
 
     @Inject(at = {@At(value = "TAIL")}, method = {"render"})
     public void addCustomLabel(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        float x = TextFieldWidgetUtil.getCursorXWithText(nameFieldWidget, ENTER_NAME_TEXT, nameFieldWidget.getX()) + 4;
-        float y = TextFieldWidgetUtil.calculateIndicatorY(nameFieldWidget);
+        float x = TextFieldWidgetUtil.getCursorXWithText(levelNameTextField, ENTER_NAME_TEXT, levelNameTextField.getX()) + 4;
+        float y = TextFieldWidgetUtil.calculateIndicatorY(levelNameTextField);
 
         animationUtil.init(x - 4, 0);
         animationUtil.calculateAnimation(x, 0);
