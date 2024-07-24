@@ -5,9 +5,6 @@ import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import com.hyfata.najoan.koreanpatch.util.mixin.textfieldwidget.ITextFieldWidgetAccessor;
 import com.hyfata.najoan.koreanpatch.util.mixin.textfieldwidget.TextFieldWidgetHandler;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.JigsawBlockScreen;
-import net.minecraft.client.gui.screen.ingame.StructureBlockScreen;
-import net.minecraft.client.gui.screen.world.CreateWorldScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -71,10 +68,7 @@ public abstract class TextFieldWidgetMixin implements ITextFieldWidgetAccessor {
 
     @Inject(at = {@At(value = "HEAD")}, method = {"charTyped(CI)Z"}, cancellable = true)
     public void charTyped(char chr, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (this.client.currentScreen != null &&
-                !(this.client.currentScreen instanceof JigsawBlockScreen) &&
-                !(this.client.currentScreen instanceof StructureBlockScreen) &&
-                !(this.client.currentScreen instanceof CreateWorldScreen && !KoreanPatchClient.gameTab) &&
+        if (this.client.currentScreen != null && !KoreanPatchClient.bypassInjection &&
                 LanguageUtil.isKorean() && this.isEditable() && Character.charCount(chr) == 1) {
             handler.typedTextField(chr, modifiers, cir);
         }
@@ -83,10 +77,7 @@ public abstract class TextFieldWidgetMixin implements ITextFieldWidgetAccessor {
     @Inject(at = {@At(value = "HEAD")}, method = {"keyPressed(III)Z"}, cancellable = true)
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> callbackInfo) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.currentScreen != null &&
-                !(client.currentScreen instanceof JigsawBlockScreen) &&
-                !(client.currentScreen instanceof StructureBlockScreen) &&
-                !(client.currentScreen instanceof CreateWorldScreen && !KoreanPatchClient.gameTab)) {
+        if (client.currentScreen != null && !KoreanPatchClient.bypassInjection) {
             if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
                 if (handler.onBackspaceKeyPressed()) {
                     callbackInfo.setReturnValue(Boolean.TRUE);

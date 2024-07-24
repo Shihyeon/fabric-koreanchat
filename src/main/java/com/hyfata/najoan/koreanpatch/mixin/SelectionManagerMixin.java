@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.util.mixin.selectionmanager.ISelectionManagerAccessor;
 import com.hyfata.najoan.koreanpatch.util.mixin.selectionmanager.SelectionManagerHandler;
 import net.minecraft.client.MinecraftClient;
@@ -83,7 +84,7 @@ public abstract class SelectionManagerMixin implements ISelectionManagerAccessor
     @Inject(at = {@At(value = "HEAD")}, method = {"delete(I)V"}, cancellable = true)
     public void delete(int offset, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.currentScreen != null) {
+        if (client.currentScreen != null && !KoreanPatchClient.bypassInjection) {
             if (handler.onBackspaceKeyPressed()) {
                 ci.cancel();
             }

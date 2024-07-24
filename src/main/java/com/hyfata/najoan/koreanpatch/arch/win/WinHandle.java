@@ -1,10 +1,10 @@
 package com.hyfata.najoan.koreanpatch.arch.win;
 
-import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
+import com.hyfata.najoan.koreanpatch.util.LibraryUtil;
 import com.sun.jna.*;
 
 public interface WinHandle extends Library {
-    WinHandle INSTANCE = Native.load(KoreanPatchClient.copyLibrary("libwincocoainput.dll"), WinHandle.class);
+    WinHandle INSTANCE = Native.load(LibraryUtil.copyLibrary("libwincocoainput.dll"), WinHandle.class);
 
     void set_focus(int flag);
     void initialize(

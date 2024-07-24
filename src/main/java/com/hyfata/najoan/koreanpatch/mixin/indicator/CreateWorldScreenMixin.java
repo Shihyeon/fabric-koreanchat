@@ -38,7 +38,7 @@ public class CreateWorldScreenMixin extends Screen {
         Tab currentTab = tabInvoker.getTabs().get(tabInvoker.currentTabIndex());
 
         if (currentTab instanceof CreateWorldScreen.GameTab) {
-            KoreanPatchClient.gameTab = true;
+            KoreanPatchClient.bypassInjection = false;
             CreateWorldScreenGameTabAccessor gameTabAccessor = (CreateWorldScreenGameTabAccessor) currentTab;
             TextFieldWidget worldNameField = gameTabAccessor.getWorldNameField();
             Text text = Text.translatable("selectWorld.enterName");
@@ -51,7 +51,7 @@ public class CreateWorldScreenMixin extends Screen {
 
             Indicator.showIndicator(context, animationUtil.getResultX(), y);
         } else {
-            KoreanPatchClient.gameTab = false;
+            KoreanPatchClient.bypassInjection = true;
         }
     }
 }

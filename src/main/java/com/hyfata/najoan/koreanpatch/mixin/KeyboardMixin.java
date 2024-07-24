@@ -22,15 +22,14 @@ public class KeyboardMixin {
 
     @Inject(method = "onKey", at = @At("HEAD"))
     private void onInput(long window, int keyCode, int scanCode, int action, int modifiers, CallbackInfo ci) {
-        if (window != client.getWindow().getHandle() ||
-                action == 0 ||
-                client.currentScreen == null) return;
-        ModLogger.debug(keyCode + " " + scanCode + " " + modifiers + " " + action);
+        if (window == client.getWindow().getHandle() && action == 1 && client.currentScreen != null && !KoreanPatchClient.bypassInjection) {
+            ModLogger.debug(keyCode + " " + scanCode + " " + modifiers + " " + action);
 
-        if (KeyBinds.getImeBinding().matchesKey(keyCode, scanCode) && modifiers == 2) {
-            InputManager.getController().toggleFocus();
-        } else if (KeyBinds.getLangBinding().matchesKey(keyCode, scanCode) && !KoreanPatchClient.IME) {
-            LanguageUtil.toggleCurrentType();
+            if (KeyBinds.getImeBinding().matchesKey(keyCode, scanCode) && modifiers == 2) {
+                InputManager.getController().toggleFocus();
+            } else if (KeyBinds.getLangBinding().matchesKey(keyCode, scanCode) && !KoreanPatchClient.IME) {
+                LanguageUtil.toggleCurrentType();
+            }
         }
     }
 }
