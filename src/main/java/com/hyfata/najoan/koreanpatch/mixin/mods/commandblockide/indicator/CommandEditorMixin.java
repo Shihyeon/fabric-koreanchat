@@ -2,7 +2,6 @@ package com.hyfata.najoan.koreanpatch.mixin.mods.commandblockide.indicator;
 
 import arm32x.minecraft.commandblockide.client.gui.MultilineTextFieldWidget;
 import arm32x.minecraft.commandblockide.client.gui.editor.CommandEditor;
-import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import net.minecraft.client.gui.DrawContext;
 import org.spongepowered.asm.mixin.Final;
@@ -32,7 +31,6 @@ public abstract class CommandEditorMixin {
 
     @Inject(at = @At(value = "HEAD"), method = "render")
     public void renderHead(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        KoreanPatchClient.bypassInjection = false;
         if (isLoaded()) {
             if (orgX == 0) {
                 orgX = commandField.getX();
