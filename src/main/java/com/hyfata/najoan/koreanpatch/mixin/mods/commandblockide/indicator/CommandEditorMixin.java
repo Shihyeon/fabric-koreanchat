@@ -3,7 +3,10 @@ package com.hyfata.najoan.koreanpatch.mixin.mods.commandblockide.indicator;
 import arm32x.minecraft.commandblockide.client.gui.MultilineTextFieldWidget;
 import arm32x.minecraft.commandblockide.client.gui.editor.CommandEditor;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,34 +24,37 @@ public abstract class CommandEditorMixin {
     @Shadow
     private int y;
 
-    @Shadow public abstract boolean isLoaded();
-
     @Unique
     private static final int margin = 5;
 
     @Unique
-    private int orgX = 0, orgWidth = 0;
+    private int orgX = 0;
+
+    @Unique
+    private int width = 0, fieldWidth = 0;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void init(Screen screen, TextRenderer textRenderer, int x, int y, int width, int height, int leftPadding, int rightPadding, int index, CallbackInfo ci) {
+        this.orgX = x + leftPadding + 20;
+        this.width = width - screen.width;
+        this.fieldWidth = - leftPadding - rightPadding - 20;
+    }
 
     @Inject(at = @At(value = "HEAD"), method = "render")
     public void renderHead(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (isLoaded()) {
-            if (orgX == 0) {
-                orgX = commandField.getX();
-            } else if (orgWidth == 0) {
-                orgWidth = commandField.getWidth();
-            }
-
-            commandField.setX((int) (orgX + Indicator.getIndicatorWidth() + margin));
-            if (orgWidth != 0) {
-                commandField.setWidth((int) (orgWidth - Indicator.getIndicatorWidth() - margin));
-            }
+        if (this.orgX != 0)
+            commandField.setX((int) (this.orgX + Indicator.getIndicatorWidth() + margin));
+        if (this.width != 0 && MinecraftClient.getInstance().currentScreen != null) {
+            int width = this.width + MinecraftClient.getInstance().currentScreen.width;
+            int totalWidth = width + fieldWidth;
+            commandField.setWidth((int) (totalWidth - Indicator.getIndicatorWidth() - margin));
         }
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Larm32x/minecraft/commandblockide/client/gui/Container;render(Lnet/minecraft/client/gui/DrawContext;IIF)V", shift = At.Shift.BEFORE), method = "render")
     public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (commandField.isFocused()) {
-            Indicator.showIndicator(context, (float) orgX, (float) (y - Indicator.getIndicatorHeight() / 2 + 7.5));
+        if (commandField.isFocused() && this.orgX != 0) {
+            Indicator.showIndicator(context, (float) this.orgX, (float) (y - Indicator.getIndicatorHeight() / 2 + 7.5));
         }
     }
 }
