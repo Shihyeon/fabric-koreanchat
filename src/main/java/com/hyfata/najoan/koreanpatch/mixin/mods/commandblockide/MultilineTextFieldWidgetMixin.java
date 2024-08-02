@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(MultilineTextFieldWidget.class)
+@Mixin(value = MultilineTextFieldWidget.class, remap = false)
 public abstract class MultilineTextFieldWidgetMixin extends TextFieldWidget implements ITextFieldWidgetAccessor {
     public MultilineTextFieldWidgetMixin(TextRenderer textRenderer, int width, int height, Text text) {
         super(textRenderer, width, height, text);
