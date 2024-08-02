@@ -28,7 +28,8 @@
     "indicator.SignEditScreenMixin",
     "mods.commandblockide.MultilineTextFieldWidgetMixin",
     "mods.commandblockide.indicator.CommandBlockEditorMixin",
-    "mods.commandblockide.indicator.CommandEditorMixin"
+    "mods.commandblockide.indicator.CommandEditorMixin",
+    "mods.modmenu.ModMenuScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
