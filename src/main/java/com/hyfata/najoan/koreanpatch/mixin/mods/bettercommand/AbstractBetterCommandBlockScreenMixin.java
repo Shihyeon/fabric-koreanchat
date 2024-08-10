@@ -1,5 +1,6 @@
 package com.hyfata.najoan.koreanpatch.mixin.mods.bettercommand;
 
+import bettercommandblockui.main.ui.screen.AbstractBetterCommandBlockScreen;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -9,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(bettercommandblockui.main.ui.screen.AbstractBetterCommandBlockScreen.class)
-public class AbstractBetterCommandBlockScreen {
+@Mixin(AbstractBetterCommandBlockScreen.class)
+public class AbstractBetterCommandBlockScreenMixin {
     @Shadow
     protected TextFieldWidget consoleCommandTextField;
 
