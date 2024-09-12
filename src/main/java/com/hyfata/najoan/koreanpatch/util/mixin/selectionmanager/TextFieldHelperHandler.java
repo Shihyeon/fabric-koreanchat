@@ -6,19 +6,19 @@ import com.hyfata.najoan.koreanpatch.util.language.HangulUtil;
 import com.hyfata.najoan.koreanpatch.util.language.LanguageUtil;
 import com.hyfata.najoan.koreanpatch.util.mixin.IMixinCommon;
 import com.hyfata.najoan.koreanpatch.util.mixin.MixinCommonHandler;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Objects;
 
-public class SelectionManagerHandler implements IMixinCommon {
-    private final ISelectionManagerAccessor accessor;
-    private final MinecraftClient client = MinecraftClient.getInstance();
+public class TextFieldHelperHandler implements IMixinCommon {
+    private final ITextFieldHelperAccessor accessor;
+    private final Minecraft client = Minecraft.getInstance();
 
-    public SelectionManagerHandler(ISelectionManagerAccessor accessor) {
+    public TextFieldHelperHandler(ITextFieldHelperAccessor accessor) {
         this.accessor = accessor;
     }
 
@@ -47,8 +47,8 @@ public class SelectionManagerHandler implements IMixinCommon {
     }
 
     public int getModifiers() {
-        boolean shift = InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ||
-                InputUtil.isKeyPressed(client.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+        boolean shift = InputConstants.isKeyDown(client.getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ||
+                InputConstants.isKeyDown(client.getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
         if (shift) {
             return 1;
         }
@@ -70,7 +70,7 @@ public class SelectionManagerHandler implements IMixinCommon {
     }
 
     public void insertChar(char chr, CallbackInfoReturnable<Boolean> cir) {
-        if (this.client.currentScreen != null && LanguageUtil.isKorean()) {
+        if (this.client.screen != null && LanguageUtil.isKorean()) {
             cir.setReturnValue(Boolean.TRUE);
             if (chr == ' ') {
                 this.writeText(String.valueOf(chr));
@@ -96,7 +96,7 @@ public class SelectionManagerHandler implements IMixinCommon {
 
     public void insertString(String string, CallbackInfo ci) {
         for (char chr : string.toCharArray()) {
-            if (this.client.currentScreen == null || !LanguageUtil.isKorean()) continue;
+            if (this.client.screen == null || !LanguageUtil.isKorean()) continue;
             ci.cancel();
             if (chr == ' ') {
                 this.writeText(String.valueOf(chr));

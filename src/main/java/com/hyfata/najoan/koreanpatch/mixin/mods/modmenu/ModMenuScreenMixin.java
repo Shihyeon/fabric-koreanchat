@@ -1,11 +1,11 @@
 package com.hyfata.najoan.koreanpatch.mixin.mods.modmenu;
 
+import com.hyfata.najoan.koreanpatch.util.EditBoxUtil;
 import com.hyfata.najoan.koreanpatch.util.Indicator;
-import com.hyfata.najoan.koreanpatch.util.TextFieldWidgetUtil;
 import com.hyfata.najoan.koreanpatch.util.animation.AnimationUtil;
 import com.terraformersmc.modmenu.gui.ModsScreen;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,20 +16,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ModsScreen.class)
 public class ModMenuScreenMixin {
     @Shadow
-    private TextFieldWidget searchBox;
+    private EditBox searchBox;
 
     @Unique
     AnimationUtil animationUtil = new AnimationUtil();
 
     @Inject(at = @At("TAIL"), method = "render")
-    private void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        float cursorX = TextFieldWidgetUtil.getCursorX(searchBox) + 4;
-        float y = TextFieldWidgetUtil.calculateIndicatorY(searchBox);
+    private void render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        float cursorX = EditBoxUtil.getCursorX(searchBox) + 4;
+        float y = EditBoxUtil.calculateIndicatorY(searchBox);
 
         animationUtil.init(cursorX - 4, 0);
         animationUtil.calculateAnimation(cursorX, 0);
 
-        context.getMatrices().translate(0.0F, 0.0F, 200.0F);
+        context.pose().translate(0.0F, 0.0F, 200.0F);
         Indicator.showIndicator(context, animationUtil.getResultX(), y);
     }
 }

@@ -2,8 +2,8 @@ package com.hyfata.najoan.koreanpatch.mixin.accessor;
 
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
-import net.minecraft.client.gui.screen.ChatInputSuggestor;
-import net.minecraft.text.OrderedText;
+import net.minecraft.client.gui.components.CommandSuggestions;
+import net.minecraft.util.FormattedCharSequence;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -11,22 +11,22 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@Mixin(ChatInputSuggestor.class)
-public interface ChatInputSuggestorAccessor {
-    @Accessor("maxSuggestionSize")
-    int getMaxSuggestionSize();
+@Mixin(CommandSuggestions.class)
+public interface CommandSuggestionsAccessor {
+    @Accessor("suggestionLineLimit")
+    int getSuggestionLineLimit();
 
     @Accessor("pendingSuggestions")
     CompletableFuture<Suggestions> getPendingSuggestions();
 
-    @Accessor("window")
-    ChatInputSuggestor.SuggestionWindow getWindow();
+    @Accessor("suggestions")
+    CommandSuggestions.SuggestionsList getSuggestions();
 
-    @Accessor("messages")
-    List<OrderedText> getMessages();
+    @Accessor("commandUsage")
+    List<FormattedCharSequence> getCommandUsage();
 
-    @Accessor("chatScreenSized")
-    boolean isChatScreenSized();
+    @Accessor("anchorToBottom")
+    boolean isAnchorToBottom();
 
     @Invoker("sortSuggestions")
     List<Suggestion> getSortSuggestions(Suggestions suggestions);

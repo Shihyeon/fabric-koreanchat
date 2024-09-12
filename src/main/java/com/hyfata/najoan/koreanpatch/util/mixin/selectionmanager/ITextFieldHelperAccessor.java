@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public interface ISelectionManagerAccessor {
+public interface ITextFieldHelperAccessor {
     int fabric_koreanchat$getCursor();
     Supplier<String> fabric_koreanchat$getStringGetter();
     Predicate<String> fabric_koreanchat$getStringFilter();

@@ -3,7 +3,7 @@ package com.hyfata.najoan.koreanpatch.arch.win;
 import com.hyfata.najoan.koreanpatch.client.KoreanPatchClient;
 import com.hyfata.najoan.koreanpatch.plugin.InputController;
 import com.hyfata.najoan.koreanpatch.util.ModLogger;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class WinController implements InputController {
     private boolean focus = false;
@@ -28,6 +28,6 @@ public class WinController implements InputController {
     WinHandle.RectCallback rc = ret -> 1;
 
     public WinController() {
-        WinHandle.INSTANCE.initialize(org.lwjgl.glfw.GLFWNativeWin32.glfwGetWin32Window(MinecraftClient.getInstance().getWindow().getHandle()), pc, dc,rc, (log) -> ModLogger.log("[Native|C] " + log), (log) -> ModLogger.error("[Native|C] " + log), (log) -> ModLogger.debug("[Native|C] " + log));
+        WinHandle.INSTANCE.initialize(org.lwjgl.glfw.GLFWNativeWin32.glfwGetWin32Window(Minecraft.getInstance().getWindow().getWindow()), pc, dc,rc, (log) -> ModLogger.log("[Native|C] " + log), (log) -> ModLogger.error("[Native|C] " + log), (log) -> ModLogger.debug("[Native|C] " + log));
     }
 }
