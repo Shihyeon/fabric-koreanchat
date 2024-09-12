@@ -1,6 +1,5 @@
 package com.hyfata.najoan.koreanpatch.util;
 
-
 import net.minecraft.client.gui.screens.Screen;
 
 import java.lang.reflect.Field;
