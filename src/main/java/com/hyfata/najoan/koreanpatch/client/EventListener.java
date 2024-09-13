@@ -1,6 +1,5 @@
 package com.hyfata.najoan.koreanpatch.client;
 
-import com.hyfata.najoan.koreanpatch.plugin.InputController;
 import com.hyfata.najoan.koreanpatch.plugin.InputManager;
 import com.hyfata.najoan.koreanpatch.util.ModLogger;
 import com.hyfata.najoan.koreanpatch.util.ReflectionFieldChecker;
@@ -10,23 +9,34 @@ import net.minecraft.client.gui.font.TextFieldHelper;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.JigsawBlockEditScreen;
 import net.minecraft.client.gui.screens.inventory.StructureBlockEditScreen;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@EventBusSubscriber(modid = KoreanPatchClient.MODID)
 public class EventListener {
     private static ArrayList<Class<?>> patchedScreenClazz = new ArrayList<>();
 
-    protected static void onClientStarted(Minecraft client) {
-        InputManager.applyController(InputController.newController());
+//    protected static void onClientStarted(Minecraft client) {
+//        InputManager.applyController(InputController.newController());
+//
+//        String[] patchedScreens = {
+//                "arm32x.minecraft.commandblockide.client.gui.screen.CommandIDEScreen"
+//        };
+//        patchedScreenClazz = getExistingClasses(patchedScreens);
+//    }
 
-        String[] patchedScreens = {
-                "arm32x.minecraft.commandblockide.client.gui.screen.CommandIDEScreen"
-        };
-        patchedScreenClazz = getExistingClasses(patchedScreens);
-    }
+    @SubscribeEvent
+    protected static void afterScreenChange(ScreenEvent.Init.Post event) {
+        if (event.getScreen() == null) {
+            return;
+        }
+        Minecraft client = Minecraft.getInstance();
 
-    protected static void afterScreenChange(Minecraft client, Screen screen, int scaledWidth, int scaledHeight) {
         if (client.screen != null) {
             ModLogger.debug("Current screen: " + client.screen);
 
@@ -56,18 +66,21 @@ public class EventListener {
         }
     }
 
-    private static ArrayList<Class<?>> getExistingClasses(String[] clazz) {
-        ArrayList<Class<?>> result = new ArrayList<>();
-        for (String className : clazz) {
-            try {
-                Class<?> cls = Class.forName(className);
-                result.add(cls);
-            } catch (ClassNotFoundException ignored) {}
-        }
-        return result;
-    }
+//    private static ArrayList<Class<?>> getExistingClasses(String[] clazz) {
+//        ArrayList<Class<?>> result = new ArrayList<>();
+//        for (String className : clazz) {
+//            try {
+//                Class<?> cls = Class.forName(className);
+//                result.add(cls);
+//            } catch (ClassNotFoundException ignored) {}
+//        }
+//        return result;
+//    }
 
-    protected static void onClientTick(Minecraft client) {
+    @SubscribeEvent
+    protected static void onClientTick(ClientTickEvent.Post event) {
+        Minecraft client = Minecraft.getInstance();
+
         if (InputManager.getController() == null) return;
 
         if (client.screen == null) {
