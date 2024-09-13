@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "*"
+license = "GNU Lesser General Public License v3.0"
+
+[[mods]]
+modId = "koreanpatch"
+
+version = "${version}"
+displayName = "Korean Patch"
+
+logoFile = "icon.png"
+
+authors = "Najoan"
+
+credits = "Shihyeon"
+
+description = '''
+This is an Korean Patch Mod (NeoForge)
+'''
+
+[[dependencies.koreanpatch]]
+modId = "minecraft"
+type = "required"
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "CLIENT"
+
+[[mixins]]
+config = "koreanpatch.mixins.json"
+
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
